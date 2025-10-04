@@ -4,14 +4,19 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -45,5 +50,27 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+        public function getRolesArray(): Collection
+    {
+        return $this->roles()->get()->mapWithKeys(function ($role) {
+            return [$role['name'] => true];
+        });
+    }
+
+    public function getPermissionArray(): Collection
+    {
+        return $this->getAllPermissions()->mapWithKeys(function ($permission) {
+            return [$permission['name'] => true];
+        });
+    }
+
+    public function canPermission(string $permissionName): bool
+    {
+        if (Permission::where('name', $permissionName)->exists()) {
+            return $this->hasPermissionTo($permissionName);
+        }
+        return false;
     }
 }
