@@ -35,7 +35,7 @@ class RoleSeeder extends Seeder
             'description' => 'Consumidor',
         ]);
 
-        $permissions = Permission::whereIn('module_key', ['seg', 'menu'])->get();
+        $permissions = Permission::whereIn('module_key', ['menu', 'seg'])->get();
         $admin->syncPermissions($permissions);
     }
 }

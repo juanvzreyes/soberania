@@ -14,6 +14,11 @@ class PermissionSeeder extends Seeder
     {
         Permission::create(['name' => 'menu.security', 'guard_name' => 'web', 'description' => 'Visibilidad menú', 'module_key' => 'menu']);
 
+        Permission::create(['name' => 'modules.index', 'guard_name' => 'web', 'description' => 'Leer Registros', 'module_key' => 'seg']);
+        Permission::create(['name' => 'modules.store', 'guard_name' => 'web', 'description' => 'Crear Registros', 'module_key' => 'seg']);
+        Permission::create(['name' => 'modules.update', 'guard_name' => 'web', 'description' => 'Actualizar Registros', 'module_key' => 'seg']);
+        Permission::create(['name' => 'modules.delete', 'guard_name' => 'web', 'description' => 'Eliminar Registros', 'module_key' => 'seg']);
+        
         Permission::create(['name' => 'permissions.index', 'guard_name' => 'web', 'description' => 'Leer Registros', 'module_key' => 'seg']);
         Permission::create(['name' => 'permissions.store', 'guard_name' => 'web', 'description' => 'Crear Registros', 'module_key' => 'seg']);
         Permission::create(['name' => 'permissions.update', 'guard_name' => 'web', 'description' => 'Actualizar Registros', 'module_key' => 'seg']);
