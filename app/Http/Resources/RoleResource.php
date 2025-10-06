@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Resources;
+
+use App\Traits\DateFormat;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class RoleResource extends JsonResource
+{
+    use DateFormat;
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id'            => $this->id,
+            'name'          => $this->name,
+            'description'   => $this->description,
+            'guard_name'    => $this->guard_name,
+            'permissions'   => PermissionResource::collection($this->whenLoaded('permissions')),
+            'created_at'    => $this->textFormatDate($this->created_at),
+        ];
+    }
+}
