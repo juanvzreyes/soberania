@@ -88,7 +88,7 @@ const componentClass = computed(() => {
     base.push("opacity-50");
   }
 
-  if(props.roundedNone){
+  if (props.roundedNone) {
     base.push("rounded-none");
 
   }
@@ -110,18 +110,14 @@ const componentClass = computed(() => {
 </script>
 
 <template>
-  <component
-    :is="is"
-    :class="componentClass"
-    :href="routeName ? route(routeName, parameter ?? null) : href"
-    :type="computedType"
-    :target="target"
-    :disabled="props.disabled || props.processing">
-    
+  <component :is="is" :class="componentClass" :href="routeName ? route(routeName, parameter ?? null) : href"
+    :type="computedType" :target="target" :disabled="props.disabled || props.processing">
+
     <BaseIcon v-if="icon" :path="icon" :size="iconSize" :class="iconColor" />
     <span v-if="label" :class="labelClass">{{ label }}</span>
-    
-    <svg v-if="props.processing" class="animate-spin h-5 w-5 text-current ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+
+    <svg v-if="props.processing" class="animate-spin h-5 w-5 text-current ml-2" xmlns="http://www.w3.org/2000/svg"
+      fill="none" viewBox="0 0 24 24">
       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
     </svg>
