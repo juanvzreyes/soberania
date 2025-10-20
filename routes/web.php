@@ -4,8 +4,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Security\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FileController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -26,6 +28,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
+    Route::resource('products', ProductController::class);
+    Route::get('photo/serve/{photo}', [FileController::class, 'servePhoto'])->name('photo.serve')->middleware('signed');
 });
 
 require __DIR__ . '/auth.php';
