@@ -34,18 +34,22 @@ class CategoryController extends Controller
         if ($search = $request->query('search')) {
             $query->where('name', 'LIKE', "%{$search}%");
         }
+
         $categories = $query->orderBy('name', 'asc')
-            ->simplePaginate(10)
+            ->paginate(10) 
             ->withQueryString();
+
         $categoriesResource = CategoryResource::collection($categories);
+        $filters = [
+            'search' => $request->query('search', ''),
+            'rows'   => $request->query('rows', 10), 
+        ];
+
         return Inertia::render("{$this->source}Index", [
             'title'      => 'Gestión de Categorías',
             'categories' => $categoriesResource,
             'routeName'  => $this->routeName,
-            'filters'    => [
-                'search' => $request->query('search', ''),
-                'rows'   => $request->query('rows', 10),
-            ],
+            'filters'    => $filters,
         ]);
     }
     public function create(): Response
