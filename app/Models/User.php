@@ -73,4 +73,9 @@ class User extends Authenticatable
         }
         return false;
     }
+
+    public function producer()
+    {
+        return $this->hasOne(Producer::class);
+    }
 }

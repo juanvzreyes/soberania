@@ -43,12 +43,12 @@ export function useAddressManagement(form) {
 
     const onStateChange = (stateId) => {
         form.value.municipality_id = null;
-        form.value.colony_id = null;
+        form.value.neighborhood_id = null;
         fetchMunicipalities(stateId);
     };
 
     const onMunicipalityChange = (municipalityId) => {
-        form.value.colony_id = null;
+        form.value.neighborhood_id = null;
         fetchNeighborhoods(municipalityId);
     };
 
