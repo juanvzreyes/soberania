@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Security\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CooperativeProfileController;
 use App\Http\Controllers\ProducerProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // profile producer
     Route::singleton('producers/profile', ProducerProfileController::class)->only(['show', 'update'])->names('profile.producer');
+
+    // profile cooperative
+    Route::singleton('cooperatives/profile', CooperativeProfileController::class)->only(['show', 'update'])->names('profile.cooperative');
 });
 
 require __DIR__ . '/auth.php';
