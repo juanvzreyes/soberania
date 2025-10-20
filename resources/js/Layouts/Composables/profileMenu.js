@@ -22,53 +22,53 @@ const producerProfileMenu = {
         //     label: "Mis Productos",
         //     route: "profile.producer.products",
         //     icon: mdiPackageVariant,
-        //     permission: "profile.producer.products.show",
+        //     permission: "profile.producer.products.index",
         // },
     ],
 };
 
-// const cooperativeProfileMenu = {
-//     label: "Mi Perfil Cooperativa",
-//     icon: mdiAccountGroup,
-//     permission: "profile.cooperative.show",
-//     menu: [
-//         {
-//             label: "Detalles de la Cooperativa",
-//             route: "profile.cooperative.show",
-//             icon: mdiStore,
-//             permission: "profile.cooperative.general.show",
-//         },
-//         {
-//             label: "Miembros",
-//             route: "profile.cooperative.members",
-//             icon: mdiAccountGroup,
-//             permission: "profile.cooperative.members.show",
-//         },
-//     ],
-// };
+const cooperativeProfileMenu = {
+    label: "Mi Perfil Cooperativa",
+    icon: mdiAccountGroup,
+    permission: "profile.cooperative.index",
+    menu: [
+        {
+            label: "Detalles de la Cooperativa",
+            route: "profile.cooperative.show",
+            icon: mdiStore,
+            permission: "profile.cooperative.index",
+        },
+        // {
+        //     label: "Miembros",
+        //     route: "profile.cooperative.members",
+        //     icon: mdiAccountGroup,
+        //     permission: "profile.cooperative.members.index",
+        // },
+    ],
+};
 
 // const consumerProfileMenu = {
 //     label: "Mi Perfil Consumidor",
 //     icon: mdiCart,
-//     permission: "profile.consumer.show", 
+//     permission: "profile.consumer.index", 
 //     menu: [
 //         {
 //             label: "Mis Datos",
 //             route: "profile.consumer.show",
 //             icon: mdiAccountDetails,
-//             permission: "profile.consumer.general.show",
+//             permission: "profile.consumer.index",
 //         },
 //         {
 //             label: "Historial de Compras",
 //             route: "profile.consumer.orders",
 //             icon: mdiCart,
-//             permission: "profile.consumer.orders.show",
+//             permission: "profile.consumer.orders.index",
 //         },
 //     ],
 // };
 
 export default [
     producerProfileMenu,
-    // cooperativeProfileMenu,
+    cooperativeProfileMenu,
     // consumerProfileMenu,
 ];
