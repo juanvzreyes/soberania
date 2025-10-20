@@ -33,5 +33,11 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'users.store', 'guard_name' => 'web', 'description' => 'Crear Registros', 'module_key' => 'seg']);
         Permission::create(['name' => 'users.update', 'guard_name' => 'web', 'description' => 'Actualizar Registros', 'module_key' => 'seg']);
         Permission::create(['name' => 'users.delete', 'guard_name' => 'web', 'description' => 'Eliminar Registros', 'module_key' => 'seg']);
+
+        Permission::create(['name' => 'profile.producer.index', 'guard_name' => 'web', 'description' => 'Leer Registros', 'module_key' => 'producer']);
+        Permission::create(['name' => 'profile.producer.update', 'guard_name' => 'web', 'description' => 'Actualizar Registros', 'module_key' => 'producer']);
+
+        Permission::create(['name' => 'profile.cooperative.index', 'guard_name' => 'web', 'description' => 'Leer Registros', 'module_key' => 'cooperative']);
+        Permission::create(['name' => 'profile.cooperative.update', 'guard_name' => 'web', 'description' => 'Actualizar Registros', 'module_key' => 'cooperative']);
     }
 }

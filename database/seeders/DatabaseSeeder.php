@@ -22,6 +22,9 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             AssignRoleToUser::class,
             CategorySeeder::class,
+            LocationSeeder::class,
+            ProducerProfileSeeder::class,
+            CooperativeProfileSeeder::class,
         ]);
     }
 }
