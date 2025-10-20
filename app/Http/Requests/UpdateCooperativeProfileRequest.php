@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Http\Requests;
+
+use App\Http\Requests\Traits\LocationRules;
+use App\Http\Requests\Traits\PhoneRules;
+use Illuminate\Foundation\Http\FormRequest;
+
+class UpdateCooperativeProfileRequest extends FormRequest
+{
+    use LocationRules, PhoneRules;
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return array_merge([
+            'name' => 'nullable|string|max:50',
+            'region' => 'nullable|string|max:50',
+            'members' => 'nullable|string|max:5',
+        ], $this->locationRules(), $this->phoneNumberRules());
+    }
+}

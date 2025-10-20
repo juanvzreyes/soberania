@@ -21,5 +21,9 @@ class AssignRoleToUser extends Seeder
         $user = User::find(2); // user producer
         $role = Role::find(2); // role producer
         $user->assignRole($role);
+
+        $user = User::find(3); // user cooperative
+        $role = Role::find(3); // role cooperative
+        $user->assignRole($role);
     }
 }
