@@ -28,6 +28,9 @@ class ProducerProfileController extends Controller
         $this->routeName = 'profile.producer.';
         $this->model = new Producer();
         $this->producerProfileService = $producerProfileService;
+
+        $this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
+        $this->middleware("permission:{$this->routeName}update")->only(['edit', 'update']);
     }
 
     public function show()

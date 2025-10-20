@@ -2,6 +2,7 @@ import { computed } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import { mdiMonitorDashboard } from "@mdi/js";
 import securityMenu from "./Menus/securityMenu";
+import profileMenus from "./profileMenu";
 
 export const baseMenu = [
     {
@@ -12,6 +13,12 @@ export const baseMenu = [
                 route: "dashboard",
                 icon: mdiMonitorDashboard,
             },
+        ],
+    },
+    {
+        labelGroup: "Mi Perfil",
+        items: [
+            ...profileMenus,
         ],
     },
     {
