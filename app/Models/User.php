@@ -78,4 +78,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Producer::class);
     }
+
+    public function cooperative()
+    {
+        return $this->hasOne(Cooperative::class);
+    }
 }
