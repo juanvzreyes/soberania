@@ -1,6 +1,4 @@
 <template>
-
-    <Head title="AgroConecta | Soberanía Alimentaria en Morelos" />
     <div class="relative text-gray-700 dark:text-gray-300">
         <div class="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style="background-image: url('/img/bg-agroconecta.jpg'); background-attachment: fixed;">
@@ -141,7 +139,7 @@
 </template>
 
 <script setup>
-import { Link, Head, usePage } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
 import navLinks from '@/navLinks.js'
 import { Menu } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
