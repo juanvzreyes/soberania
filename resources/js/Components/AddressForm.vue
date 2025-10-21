@@ -17,8 +17,9 @@
         </FormField>
 
         <FormField label="Colonia" :error="props.errors?.['location.neighborhood_id']">
-            <FormControl v-model="form.neighborhood_id" :options="filteredNeighborhoods" value-select="id" value-option="name"
-                placeholder="Selecciona Colonia" :disabled="!form.municipality_id || neighborhoods.length === 0" />
+            <FormControl v-model="form.neighborhood_id" :options="filteredNeighborhoods" value-select="id"
+                value-option="name" placeholder="Selecciona Colonia"
+                :disabled="!form.municipality_id || neighborhoods.length === 0" />
         </FormField>
 
         <FormField label="Calle" :error="props.errors?.['location.street']">
@@ -164,20 +165,37 @@ const geocodeAddress = async () => {
 
     const stateName = findNameById(states.value, form.value.state_id);
     const municipalityName = findNameById(municipalities.value, form.value.municipality_id);
-    const queryParts = [
-        municipalityName,
-        stateName,
-        form.value.postal_code,
-        'Mexico'
-    ].filter(part => part).join(', ');
+    const neighborhoodName = findNameById(neighborhoods.value, form.value.neighborhood_id);
 
-    if (!queryParts) {
-        alert('Por favor, ingrese al menos la calle, colonia o código postal.');
+    const params = new URLSearchParams({
+        format: 'json',
+        countrycodes: 'mx',
+        limit: 1
+    });
+
+    if (form.value.street) {
+        params.append('street', `${form.value.street} ${form.value.exterior_number || ''}`.trim());
+    }
+    if (neighborhoodName) {
+        params.append('city', neighborhoodName);
+    }
+    if (municipalityName) {
+        params.append('county', municipalityName);
+    }
+    if (stateName) {
+        params.append('state', stateName);
+    }
+    if (form.value.postal_code) {
+        params.append('postalcode', form.value.postal_code);
+    }
+
+    if (!form.value.street && !neighborhoodName && !form.value.postal_code) {
+        // alert('Por favor, ingrese al menos la calle, colonia o código postal.');
         return;
     }
 
     try {
-        const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(queryParts)}&countrycodes=mx&limit=1`);
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?${params.toString()}`);
         if (!response.ok) throw new Error('Error en la respuesta del servidor de geocodificación');
 
         const data = await response.json();
@@ -194,19 +212,17 @@ const geocodeAddress = async () => {
             form.value.latitude = coordinates[0];
             form.value.longitude = coordinates[1];
         } else {
-            alert('No se pudo encontrar la dirección en el mapa.');
+            // alert('No se pudo encontrar la dirección en el mapa.');
         }
     } catch (error) {
         console.error("Error en la geocodificación:", error);
-        alert('Ocurrió un error al buscar la dirección.');
+        // alert('Ocurrió un error al buscar la dirección.');
     }
 };
 
 onMounted(() => {
     nextTick(() => {
-        setTimeout(() => {
-            initMap();
-        }, 100);
+        initMap();
     });
 });
 </script>

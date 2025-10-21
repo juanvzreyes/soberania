@@ -1,9 +1,14 @@
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 
 export function useAddressManagement(form) {
     const states = ref([]);
     const municipalities = ref([]);
     const neighborhoods = ref([]);
+
+    const normalizeString = (str) => {
+        if (!str) return '';
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    };
 
     const fetchStates = async () => {
         try {
@@ -44,11 +49,16 @@ export function useAddressManagement(form) {
     const onStateChange = (stateId) => {
         form.value.municipality_id = null;
         form.value.neighborhood_id = null;
+        form.value.postal_code = '';
+        municipalities.value = [];
+        neighborhoods.value = [];
         fetchMunicipalities(stateId);
     };
 
     const onMunicipalityChange = (municipalityId) => {
         form.value.neighborhood_id = null;
+        form.value.postal_code = '';
+        neighborhoods.value = [];
         fetchNeighborhoods(municipalityId);
     };
 
@@ -58,27 +68,46 @@ export function useAddressManagement(form) {
             const response = await fetch(`/api/locations/postal-code/${postalCode}`);
             if (response.ok) {
                 const data = await response.json();
-                form.value.state_id = data.state_id;
-                await fetchMunicipalities(data.state_id);
-                form.value.municipality_id = data.municipality_id;
-                await fetchNeighborhoods(data.municipality_id);
+                if (data) {
+                    form.value.state_id = data.state_id;
+                    await fetchMunicipalities(data.state_id);
+                    form.value.municipality_id = data.municipality_id;
+                    await fetchNeighborhoods(data.municipality_id);
+                    form.value.neighborhood_id = data.neighborhood_id;
+                }
             }
         } catch (error) {
             console.error('Error fetching postal code data:', error);
         }
     };
-    
-    const handleReverseGeocode = (address) => {
+
+    const handleReverseGeocode = async (address) => {
         const postalCode = address.postcode;
+        const coloniaName = address.suburb || address.neighbourhood;
+
         form.value.street = address.road || '';
         form.value.exterior_number = address.house_number || '';
+
         if (postalCode && postalCode.length === 5) {
-            onPostalCodeChange(postalCode);
+            form.value.postal_code = postalCode;
+            await onPostalCodeChange(postalCode);
+
+            if (coloniaName && neighborhoods.value.length > 0) {
+                const normalizedColoniaName = normalizeString(coloniaName);
+                const matchedColonia = neighborhoods.value.find(n => 
+                    normalizeString(n.name) === normalizedColoniaName
+                );
+
+                if (matchedColonia) {
+                    form.value.neighborhood_id = matchedColonia.id;
+                    form.value.postal_code = matchedColonia.postal_code;
+                }
+            }
         }
     };
 
     onMounted(fetchStates);
-    
+
     onMounted(() => {
         if (form.value.state_id) {
             fetchMunicipalities(form.value.state_id).then(() => {
