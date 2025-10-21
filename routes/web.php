@@ -11,6 +11,7 @@ use App\Http\Controllers\ProducerProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\ProducerLocationController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -20,7 +21,9 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('welcome');
+
+Route::resource('producers/map', ProducerLocationController::class)->only('index')->names('producer.map');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
