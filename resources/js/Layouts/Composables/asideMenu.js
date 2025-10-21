@@ -3,6 +3,7 @@ import { usePage } from "@inertiajs/vue3";
 import { mdiMonitorDashboard } from "@mdi/js";
 import securityMenu from "./Menus/securityMenu";
 import profileMenus from "./profileMenu";
+import homeMenu from "./homeMenu";
 
 export const baseMenu = [
     {
@@ -25,6 +26,12 @@ export const baseMenu = [
         labelGroup: "Administración",
         items: [
             ...securityMenu,
+        ],
+    },    
+    {
+        labelGroup: "Público",
+        items: [
+            ...homeMenu,
         ],
     },
 ];
