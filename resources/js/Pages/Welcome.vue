@@ -1,9 +1,10 @@
 <script setup>
-import { Head, Link, usePage } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
 import LandingLayout from '@/Layouts/LandingLayout.vue'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Carrot, Handshake, KanbanSquare } from 'lucide-vue-next'
+import HeadLogo from '@/Components/HeadLogo.vue'
 
 defineOptions({
     layout: LandingLayout
@@ -14,7 +15,7 @@ const canRegister = usePage().props.canRegister
 
 <template>
 
-    <Head title="Inicio - AgroConecta" />
+    <HeadLogo title="Inicio - AgroConecta" />
 
     <main class="pt-24 md:pt-32">
         <div class="text-center mb-16 lg:mb-24">
