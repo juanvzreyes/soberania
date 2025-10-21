@@ -47,28 +47,28 @@ const cooperativeProfileMenu = {
     ],
 };
 
-// const consumerProfileMenu = {
-//     label: "Mi Perfil Consumidor",
-//     icon: mdiCart,
-//     permission: "profile.consumer.index", 
-//     menu: [
-//         {
-//             label: "Mis Datos",
-//             route: "profile.consumer.show",
-//             icon: mdiAccountDetails,
-//             permission: "profile.consumer.index",
-//         },
-//         {
-//             label: "Historial de Compras",
-//             route: "profile.consumer.orders",
-//             icon: mdiCart,
-//             permission: "profile.consumer.orders.index",
-//         },
-//     ],
-// };
+const consumerProfileMenu = {
+    label: "Mi Perfil Consumidor",
+    icon: mdiCart,
+    permission: "profile.consumer.index", 
+    menu: [
+        {
+            label: "Mis Datos",
+            route: "profile.consumer.show",
+            icon: mdiAccountDetails,
+            permission: "profile.consumer.index",
+        },
+        // {
+        //     label: "Historial de Compras",
+        //     route: "profile.consumer.orders",
+        //     icon: mdiCart,
+        //     permission: "profile.consumer.orders.index",
+        // },
+    ],
+};
 
 export default [
     producerProfileMenu,
     cooperativeProfileMenu,
-    // consumerProfileMenu,
+    consumerProfileMenu,
 ];

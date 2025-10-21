@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             LocationSeeder::class,
             ProducerProfileSeeder::class,
             CooperativeProfileSeeder::class,
+            ConsumerProfileSeeder::class,
         ]);
     }
 }

@@ -39,5 +39,8 @@ class PermissionSeeder extends Seeder
 
         Permission::create(['name' => 'profile.cooperative.index', 'guard_name' => 'web', 'description' => 'Leer Registros', 'module_key' => 'cooperative']);
         Permission::create(['name' => 'profile.cooperative.update', 'guard_name' => 'web', 'description' => 'Actualizar Registros', 'module_key' => 'cooperative']);
+
+        Permission::create(['name' => 'profile.consumer.index', 'guard_name' => 'web', 'description' => 'Leer Registros', 'module_key' => 'consumer']);
+        Permission::create(['name' => 'profile.consumer.update', 'guard_name' => 'web', 'description' => 'Actualizar Registros', 'module_key' => 'consumer']);
     }
 }
