@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Security\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ConsumerProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CooperativeProfileController;
 use App\Http\Controllers\ProducerProfileController;
@@ -33,11 +34,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::get('photo/serve/{photo}', [FileController::class, 'servePhoto'])->name('photo.serve')->middleware('signed');
 
-    // profile producer
+    // profiles
     Route::singleton('producers/profile', ProducerProfileController::class)->only(['show', 'update'])->names('profile.producer');
-
-    // profile cooperative
     Route::singleton('cooperatives/profile', CooperativeProfileController::class)->only(['show', 'update'])->names('profile.cooperative');
+    Route::singleton('consumers/profile', ConsumerProfileController::class)->only(['show', 'update'])->names('profile.consumer');
+
 });
 
 require __DIR__ . '/auth.php';

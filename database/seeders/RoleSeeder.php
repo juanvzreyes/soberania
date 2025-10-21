@@ -43,5 +43,8 @@ class RoleSeeder extends Seeder
 
         $permissions = Permission::whereIn('module_key', ['cooperative'])->get();
         $cooperative->syncPermissions($permissions);
+
+        $permissions = Permission::whereIn('module_key', ['consumer'])->get();
+        $consumer->syncPermissions($permissions);
     }
 }
