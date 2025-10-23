@@ -70,7 +70,7 @@ class ProductController extends Controller
 
     public function create(): Response
     {
-        $categories = Category::orderBy('name')->get(['id', 'name']);
+        
 
         return Inertia::render("{$this->source}Create", [
             'title'      => 'Registrar Nuevo Producto',

@@ -12,6 +12,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\ProducerLocationController;
+use App\Http\Controllers\InventoryEntryController;
+use App\Http\Controllers\InventoryExitController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -35,6 +37,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
+    Route::resource('inventoryEntry', InventoryEntryController::class);
+    Route::resource('inventoryExit', InventoryExitController::class);
+
     Route::get('photo/serve/{photo}', [FileController::class, 'servePhoto'])->name('photo.serve')->middleware('signed');
 
     // profiles

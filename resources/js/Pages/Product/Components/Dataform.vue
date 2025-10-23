@@ -9,11 +9,11 @@
             </div>
 
             <div class="md:w-1/3 max-lg:mb-5">
-                <FormField label="Costo por Unidad" required :error="form.errors.price">
+                <FormField label="Costo por Unidad (Kg)" required :error="form.errors.price">
                     <FormControl v-model="form.price" type="number" height="h-10" placeholder="Ej. 15.50" />
                 </FormField>
             </div>
-
+            
             <div class="md:w-1/3 max-lg:mb-5">
                 <FormField label="Categoría" required :error="form.errors.category_id">
                     <FormControl v-model="form.category_id" type="select" :options="categories"
