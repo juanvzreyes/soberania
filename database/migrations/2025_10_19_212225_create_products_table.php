@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('price', 8, 2);
             //$table->string('unit_of_measure', 50)->nullable(); 
-            //$table->integer('stock_quantity')->default(0); 
+            $table->integer('stock_quantity')->default(0); 
             $table->boolean('is_available')->default(true); 
             $table->timestamps();
             $table->softDeletes(); 
