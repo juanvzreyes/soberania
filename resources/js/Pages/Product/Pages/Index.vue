@@ -39,7 +39,7 @@
                             </td>
                             <td data-label="Acciones" class="before:hidden lg:w-1 whitespace-nowrap">
                                 <BaseButtons>
-                                    <BaseButton :color="product.is_available ? 'danger' : 'success'"
+                                    <BaseButton :color="product.is_available ? '' : ''"
                                         :icon="product.is_available ? mdiTrashCan : mdiCheck"
                                         @click="toggleProductStatus(product)"
                                         :title="product.is_available ? 'Dar de Baja Producto' : 'Activar Producto'"
