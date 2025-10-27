@@ -37,6 +37,11 @@ class ProducerProfileController extends Controller
     {
         $user = Auth::user();
         $producer = $user->producer;
+        if (is_null($producer)) {
+            $producer = Producer::create([
+                'user_id' => $user->id,
+            ]);
+        }
         $producer->load([
             'location',
             'phones',
