@@ -14,6 +14,9 @@ const showPasswordConfirmation = ref(false);
 
 const form = useForm({
     name: '',
+    first_name: '',
+    last_name: '',
+    second_last_name: '',
     email: '',
     password: '',
     password_confirmation: '',
@@ -29,7 +32,7 @@ const submit = () => {
 <template>
     <LandingLayout>
         <HeadLogo title="Registrarse" />
-        <div class="flex items-center justify-center min-h-[calc(100vh)] py-12 px-4">
+        <div class="flex items-center justify-center min-h-[calc(100vh)] py-20 px-4">
             <Card
                 class="w-full max-w-md mx-auto border-emerald-200 shadow-lg dark:border-emerald-800 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
                 <CardHeader class="text-center">
@@ -50,11 +53,36 @@ const submit = () => {
                 </CardHeader>
                 <CardContent>
                     <form @submit.prevent="submit" class="space-y-4">
-                        <div class="flex flex-col space-y-1.5">
+                        <!-- <div class="flex flex-col space-y-1.5">
                             <Label for="name" class="text-gray-700 dark:text-gray-300">Nombre</Label>
                             <Input id="name" type="text" v-model="form.name" required autofocus autocomplete="name"
                                 class="dark:bg-gray-900/50 dark:border-gray-700 dark:text-white" />
                             <p v-if="form.errors.name" class="text-sm text-red-500 mt-1">{{ form.errors.name }}</p>
+                        </div> -->
+                        <div class="flex flex-col space-y-1.5">
+                            <Label for="first_name" class="text-gray-700 dark:text-gray-300">Nombres</Label>
+                            <Input id="first_name" type="text" v-model="form.first_name" required autofocus
+                                autocomplete="first_name"
+                                class="dark:bg-gray-900/50 dark:border-gray-700 dark:text-white" />
+                            <p v-if="form.errors.first_name" class="text-sm text-red-500 mt-1">{{ form.errors.first_name
+                                }}</p>
+                        </div>
+                        <div class="flex flex-col space-y-1.5">
+                            <Label for="last_name" class="text-gray-700 dark:text-gray-300">Primer apellido</Label>
+                            <Input id="last_name" type="text" v-model="form.last_name" required autofocus
+                                autocomplete="last_name"
+                                class="dark:bg-gray-900/50 dark:border-gray-700 dark:text-white" />
+                            <p v-if="form.errors.last_name" class="text-sm text-red-500 mt-1">{{ form.errors.last_name
+                                }}</p>
+                        </div>
+                        <div class="flex flex-col space-y-1.5">
+                            <Label for="second_last_name" class="text-gray-700 dark:text-gray-300">Segundo
+                                apellido</Label>
+                            <Input id="second_last_name" type="text" v-model="form.second_last_name" autofocus
+                                autocomplete="second_last_name"
+                                class="dark:bg-gray-900/50 dark:border-gray-700 dark:text-white" />
+                            <p v-if="form.errors.second_last_name" class="text-sm text-red-500 mt-1">{{
+                                form.errors.second_last_name }}</p>
                         </div>
                         <div class="flex flex-col space-y-1.5">
                             <Label for="email" class="text-gray-700 dark:text-gray-300">Email</Label>
