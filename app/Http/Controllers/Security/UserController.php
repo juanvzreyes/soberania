@@ -76,7 +76,13 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $user = $this->model::create($request->validated());
+        $validatedData = $request->validated();
+        $validatedData['name'] = implode(' ', array_filter([
+            $validatedData['first_name'],
+            $validatedData['last_name'],
+            $validatedData['second_last_name'] ?? null,
+        ]));
+        $user = $this->model::create($validatedData);
         $user->syncRoles($request->roles);
         return redirect()->route("{$this->routeName}index")->with('success', 'Usuario creado con éxito');
     }
@@ -108,6 +114,13 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $data = $request->validated();
+        if (isset($data['first_name']) || isset($data['last_name']) || isset($data['second_last_name'])) {
+            $data['name'] = implode(' ', array_filter([
+                $data['first_name'],
+                $data['last_name'],
+                $data['second_last_name'] ?? null,
+            ]));
+        }
         if (!$request->filled('password')) {
             unset($data['password']);
         }

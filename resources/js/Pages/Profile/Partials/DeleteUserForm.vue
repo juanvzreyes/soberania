@@ -1,14 +1,17 @@
 <script setup>
-import DangerButton from '@/Components/DangerButton.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import Modal from '@/Components/Modal.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import { nextTick, ref } from 'vue';
+import { mdiTrashCan } from "@mdi/js";
+import FormField from "@/Components/FormField.vue";
+import FormControl from "@/Components/FormControl.vue";
+import CardBox from "@/Components/CardBox.vue";
+import BaseButton from "@/Components/BaseButton.vue";
+import BaseButtons from "@/Components/BaseButtons.vue";
+import CardSection from "@/Components/CardSection.vue";
+import CardBoxModal from "@/Components/CardBoxModal.vue";
 
 const confirmingUserDeletion = ref(false);
+
 const passwordInput = ref(null);
 
 const form = useForm({
@@ -17,15 +20,14 @@ const form = useForm({
 
 const confirmUserDeletion = () => {
     confirmingUserDeletion.value = true;
-
-    nextTick(() => passwordInput.value.focus());
+    nextTick(() => passwordInput.value?.focus());
 };
 
 const deleteUser = () => {
     form.delete(route('profile.destroy'), {
         preserveScroll: true,
         onSuccess: () => closeModal(),
-        onError: () => passwordInput.value.focus(),
+        onError: () => passwordInput.value?.focus(),
         onFinish: () => form.reset(),
     });
 };
@@ -39,70 +41,39 @@ const closeModal = () => {
 </script>
 
 <template>
-    <section class="space-y-6">
-        <header>
-            <h2 class="text-lg font-medium text-gray-900">
-                Elimine su Cuenta
-            </h2>
+    <div>
+        <CardBox>
+            <CardSection title="Eliminar Cuenta"
+                description="Una vez tu cuenta es eliminada, todos los recursos y datos serán permanentemente eliminados. Antes de eliminar tu cuenta, por favor descarga cualquier información o datos que desees conservar.">
+            </CardSection>
 
-            <p class="mt-1 text-sm text-gray-600">
-                Una vez tu cuenta es eliminada, todos los recursos y datos serán
-                permanentemente eliminados. Antes de eliminar tu cuenta, por favor
-                descarga cualquier información o datos que desees conservar.
+            <template #footer>
+                <BaseButtons>
+                    <BaseButton color="" label="Eliminar Cuenta" :icon="mdiTrashCan"
+                        @click="confirmUserDeletion" />
+                </BaseButtons>
+            </template>
+        </CardBox>
+
+        <CardBoxModal v-model="confirmingUserDeletion" title="¿Estás seguro de que deseas eliminar tu cuenta?"
+            button="" has-cancel @confirm="deleteUser">
+            <p class="mb-6">
+                Una vez tu cuenta es eliminada, todos sus recursos y datos serán permanentemente eliminados. Por favor
+                ingresa tu contraseña para confirmar que deseas eliminar tu cuenta permanentemente.
             </p>
-        </header>
 
-        <DangerButton @click="confirmUserDeletion">Eliminar Cuenta</DangerButton>
+            <FormField label="Contraseña" :error="form.errors.password">
+                <FormControl ref="passwordInput" v-model="form.password" type="password"
+                    placeholder="Ingresa tu contraseña" @keyup.enter="deleteUser" />
+            </FormField>
 
-        <Modal :show="confirmingUserDeletion" @close="closeModal">
-            <div class="p-6">
-                <h2
-                    class="text-lg font-medium text-gray-900"
-                >
-                    Está seguro de que desea eliminar su cuenta?
-                </h2>
-
-                <p class="mt-1 text-sm text-gray-600">
-                    Una vez tu cuenta es eliminada, todos los recurso y datos serán
-                    permanentemente eliminados. Por favor ingresa tu contraseña para
-                    confirmar que deseas eliminar tu cuenta.
-                </p>
-
-                <div class="mt-6">
-                    <InputLabel
-                        for="password"
-                        value="Password"
-                        class="sr-only"
-                    />
-
-                    <TextInput
-                        id="password"
-                        ref="passwordInput"
-                        v-model="form.password"
-                        type="password"
-                        class="mt-1 block w-3/4"
-                        placeholder="Contraseña"
-                        @keyup.enter="deleteUser"
-                    />
-
-                    <InputError :message="form.errors.password" class="mt-2" />
-                </div>
-
-                <div class="mt-6 flex justify-end">
-                    <SecondaryButton @click="closeModal">
-                        Cancelar
-                    </SecondaryButton>
-
-                    <DangerButton
-                        class="ms-3"
-                        :class="{ 'opacity-25': form.processing }"
-                        :disabled="form.processing"
-                        @click="deleteUser"
-                    >
-                        Eliminar Cuenta
-                    </DangerButton>
-                </div>
-            </div>
-        </Modal>
-    </section>
+            <template #footer>
+                <BaseButtons>
+                    <BaseButton label="Cancelar" color="info" outline @click="closeModal" />
+                    <BaseButton label="Eliminar Cuenta" color="" :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing" @click="deleteUser" />
+                </BaseButtons>
+            </template>
+        </CardBoxModal>
+    </div>
 </template>

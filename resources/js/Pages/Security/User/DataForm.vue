@@ -2,11 +2,20 @@
     <CardBox>
         <div class="md:flex md:space-x-4 mb-5">
             <div class="md:w-1/2 max-lg:mb-5">
-                <FormField label="Nombre del usuario:" required :error="form.errors.name">
+                <!-- <FormField label="Nombre del usuario:" required :error="form.errors.name">
                     <FormControl v-model="form.name" placeholder="Nombre del usuario" />
+                </FormField> -->
+                <FormField label="Nombres:" required :error="form.errors.first_name">
+                    <FormControl v-model="form.first_name" placeholder="Nombres del usuario" />
+                </FormField>
+                <FormField label="Segundo apellido:" :error="form.errors.second_last_name">
+                    <FormControl v-model="form.second_last_name" placeholder="Segundo apellido del usuario" />
                 </FormField>
             </div>
             <div class="md:w-1/2">
+                <FormField label="Primer apellido:" required :error="form.errors.last_name">
+                    <FormControl v-model="form.last_name" placeholder="Primer apellido del usuario" />
+                </FormField>
                 <FormField label="Correo Electrónico:" required :error="form.errors.email">
                     <FormControl v-model="form.email" type="email" placeholder="Correo Electrónico" />
                 </FormField>

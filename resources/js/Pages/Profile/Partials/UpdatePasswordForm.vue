@@ -1,10 +1,13 @@
 <script setup>
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { mdiContentSave } from "@mdi/js";
+import FormField from "@/Components/FormField.vue";
+import FormControl from "@/Components/FormControl.vue";
+import CardBox from "@/Components/CardBox.vue";
+import BaseButton from "@/Components/BaseButton.vue";
+import BaseButtons from "@/Components/BaseButtons.vue";
+import CardSection from "@/Components/CardSection.vue";
 
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
@@ -15,18 +18,18 @@ const form = useForm({
     password_confirmation: '',
 });
 
-const updatePassword = () => {
+const submit = () => {
     form.put(route('password.update'), {
         preserveScroll: true,
         onSuccess: () => form.reset(),
         onError: () => {
             if (form.errors.password) {
                 form.reset('password', 'password_confirmation');
-                passwordInput.value.focus();
+                passwordInput.value?.focus();
             }
             if (form.errors.current_password) {
                 form.reset('current_password');
-                currentPasswordInput.value.focus();
+                currentPasswordInput.value?.focus();
             }
         },
     });
@@ -34,89 +37,38 @@ const updatePassword = () => {
 </script>
 
 <template>
-    <section>
-        <header>
-            <h2 class="text-lg font-medium text-gray-900">
-                Actualizar Contraseña
-            </h2>
+    <CardBox is-form @submit.prevent="submit">
+        <CardSection title="Actualizar Contraseña"
+            description="Asegúrate que tu cuenta use una contraseña adecuada y segura.">
+            <FormField label="Contraseña Actual" required :error="form.errors.current_password">
+                <FormControl ref="currentPasswordInput" v-model="form.current_password" type="password"
+                    autocomplete="current-password" required />
+            </FormField>
 
-            <p class="mt-1 text-sm text-gray-600">
-                Asegurate que tu cuenta use una contraseña adecuada y segura.
-                secure.
-            </p>
-        </header>
+            <FormField label="Nueva Contraseña" required :error="form.errors.password">
+                <FormControl ref="passwordInput" v-model="form.password" type="password" autocomplete="new-password"
+                    required />
+            </FormField>
 
-        <form @submit.prevent="updatePassword" class="mt-6 space-y-6">
-            <div>
-                <InputLabel for="current_password" value="Contraseña Actual" />
+            <FormField label="Confirmar Contraseña" required :error="form.errors.password_confirmation">
+                <FormControl v-model="form.password_confirmation" type="password" autocomplete="new-password"
+                    required />
+            </FormField>
+        </CardSection>
 
-                <TextInput
-                    id="current_password"
-                    ref="currentPasswordInput"
-                    v-model="form.current_password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    autocomplete="current-password"
-                />
-
-                <InputError
-                    :message="form.errors.current_password"
-                    class="mt-2"
-                />
-            </div>
-
-            <div>
-                <InputLabel for="password" value="Nueva Contraseña" />
-
-                <TextInput
-                    id="password"
-                    ref="passwordInput"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    autocomplete="new-password"
-                />
-
-                <InputError :message="form.errors.password" class="mt-2" />
-            </div>
-
-            <div>
-                <InputLabel
-                    for="password_confirmation"
-                    value="Confirmar Contraseña"
-                />
-
-                <TextInput
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    autocomplete="new-password"
-                />
-
-                <InputError
-                    :message="form.errors.password_confirmation"
-                    class="mt-2"
-                />
-            </div>
-
-            <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Guardar</PrimaryButton>
-
-                <Transition
-                    enter-active-class="transition ease-in-out"
-                    enter-from-class="opacity-0"
-                    leave-active-class="transition ease-in-out"
-                    leave-to-class="opacity-0"
-                >
-                    <p
-                        v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600"
-                    >
+        <template #footer>
+            <div class="flex items-center space-x-4">
+                <BaseButtons>
+                    <BaseButton type="submit" color="contrast" label="Guardar"
+                        :class="{ 'opacity-25': form.processing }" :disabled="form.processing" :icon="mdiContentSave" />
+                </BaseButtons>
+                <Transition enter-active-class="transition ease-in-out" enter-from-class="opacity-0"
+                    leave-active-class="transition ease-in-out" leave-to-class="opacity-0">
+                    <p v-if="form.recentlySuccessful" class="text-sm text-gray-600 dark:text-gray-400">
                         Guardado.
                     </p>
                 </Transition>
             </div>
-        </form>
-    </section>
+        </template>
+    </CardBox>
 </template>

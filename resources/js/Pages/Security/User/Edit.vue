@@ -48,6 +48,9 @@ const props = defineProps({
 const form = useForm({
     id: props.user.id,
     name: props.user.name,
+    first_name: props.user.first_name,
+    last_name: props.user.last_name,
+    second_last_name: props.user.second_last_name,
     email: props.user.email,
     password: null,
     roles: props.user.roles.map((role) => role.id),
