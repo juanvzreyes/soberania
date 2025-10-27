@@ -1,12 +1,28 @@
 <script setup>
-import DangerButton from '@/Components/DangerButton.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import Modal from '@/Components/Modal.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import { nextTick, ref } from 'vue';
+import { Button } from '@/components/ui/button';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogClose
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Loader2 } from 'lucide-vue-next';
 
 const confirmingUserDeletion = ref(false);
 const passwordInput = ref(null);
@@ -17,7 +33,6 @@ const form = useForm({
 
 const confirmUserDeletion = () => {
     confirmingUserDeletion.value = true;
-
     nextTick(() => passwordInput.value.focus());
 };
 
@@ -32,77 +47,84 @@ const deleteUser = () => {
 
 const closeModal = () => {
     confirmingUserDeletion.value = false;
-
     form.clearErrors();
     form.reset();
 };
 </script>
 
 <template>
-    <section class="space-y-6">
-        <header>
-            <h2 class="text-lg font-medium text-gray-900">
-                Elimine su Cuenta
-            </h2>
-
-            <p class="mt-1 text-sm text-gray-600">
+    <Card>
+        <CardHeader>
+            <CardTitle>Eliminar Cuenta</CardTitle>
+            <CardDescription>
                 Una vez tu cuenta es eliminada, todos los recursos y datos serán
-                permanentemente eliminados. Antes de eliminar tu cuenta, por favor
-                descarga cualquier información o datos que desees conservar.
-            </p>
-        </header>
-
-        <DangerButton @click="confirmUserDeletion">Eliminar Cuenta</DangerButton>
-
-        <Modal :show="confirmingUserDeletion" @close="closeModal">
-            <div class="p-6">
-                <h2
-                    class="text-lg font-medium text-gray-900"
-                >
-                    Está seguro de que desea eliminar su cuenta?
-                </h2>
-
-                <p class="mt-1 text-sm text-gray-600">
-                    Una vez tu cuenta es eliminada, todos los recurso y datos serán
-                    permanentemente eliminados. Por favor ingresa tu contraseña para
-                    confirmar que deseas eliminar tu cuenta.
-                </p>
-
-                <div class="mt-6">
-                    <InputLabel
-                        for="password"
-                        value="Password"
-                        class="sr-only"
-                    />
-
-                    <TextInput
-                        id="password"
-                        ref="passwordInput"
-                        v-model="form.password"
-                        type="password"
-                        class="mt-1 block w-3/4"
-                        placeholder="Contraseña"
-                        @keyup.enter="deleteUser"
-                    />
-
-                    <InputError :message="form.errors.password" class="mt-2" />
-                </div>
-
-                <div class="mt-6 flex justify-end">
-                    <SecondaryButton @click="closeModal">
-                        Cancelar
-                    </SecondaryButton>
-
-                    <DangerButton
-                        class="ms-3"
-                        :class="{ 'opacity-25': form.processing }"
-                        :disabled="form.processing"
-                        @click="deleteUser"
-                    >
-                        Eliminar Cuenta
-                    </DangerButton>
-                </div>
-            </div>
-        </Modal>
-    </section>
+                permanentemente eliminados. Antes de eliminar tu cuenta, por
+                favor descarga cualquier información o datos que desees
+                conservar.
+            </CardDescription>
+        </CardHeader>
+        <CardFooter>
+            <Dialog
+                :open="confirmingUserDeletion"
+                @update:open="confirmingUserDeletion = $event"
+            >
+                <DialogTrigger as-child>
+                    <Button variant="destructive">Eliminar Cuenta</Button>
+                </DialogTrigger>
+                <DialogContent class="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle
+                            >¿Estás seguro de que deseas eliminar tu
+                            cuenta?</DialogTitle
+                        >
+                        <DialogDescription>
+                            Una vez tu cuenta es eliminada, todos los recurso y
+                            datos serán permanentemente eliminados. Por favor
+                            ingresa tu contraseña para confirmar que deseas
+                            eliminar tu cuenta.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div class="mt-6 space-y-2">
+                        <Label for="password-delete" class="sr-only"
+                            >Password</Label
+                        >
+                        <Input
+                            id="password-delete"
+                            ref="passwordInput"
+                            v-model="form.password"
+                            type="password"
+                            class="mt-1 block w-full dark:bg-gray-900/50 dark:border-gray-700 dark:text-white"
+                            placeholder="Contraseña"
+                            @keyup.enter="deleteUser"
+                        />
+                        <p
+                            v-if="form.errors.password"
+                            class="mt-2 text-sm text-red-600 dark:text-red-400"
+                        >
+                            {{ form.errors.password }}
+                        </p>
+                    </div>
+                    <DialogFooter class="mt-6 flex justify-end gap-2">
+                        <DialogClose as-child>
+                             <Button variant="outline" @click="closeModal">
+                                Cancelar
+                            </Button>
+                        </DialogClose>
+                        <Button
+                            variant="destructive"
+                            :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing"
+                            @click="deleteUser"
+                        >
+                            <Loader2
+                                v-if="form.processing"
+                                class="w-4 h-4 mr-2 animate-spin"
+                            />
+                            Eliminar Cuenta
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+        </CardFooter>
+    </Card>
 </template>
