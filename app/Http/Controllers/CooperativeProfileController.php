@@ -37,6 +37,11 @@ class CooperativeProfileController extends Controller
     {
         $user = Auth::user();
         $cooperative = $user->cooperative;
+        if (is_null($cooperative)) {
+            $cooperative = Cooperative::create([
+                'user_id' => $user->id,
+            ]);
+        }
         $cooperative->load([
             'location',
             'phones',

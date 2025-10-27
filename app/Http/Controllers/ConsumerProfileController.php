@@ -37,6 +37,11 @@ class ConsumerProfileController extends Controller
     {
         $user = Auth::user();
         $consumer = $user->consumer;
+        if (is_null($consumer)) {
+            $consumer = Consumer::create([
+                'user_id' => $user->id,
+            ]);
+        }
         $consumer->load([
             'location',
             'phones',
