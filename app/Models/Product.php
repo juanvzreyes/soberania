@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -19,7 +21,7 @@ class Product extends Model
         'price',
         'user_id',
         //'unit_of_measure',
-        //'stock_quantity',
+        'stock_quantity',
         'is_available',
     ];
 
@@ -44,5 +46,13 @@ class Product extends Model
     public function photos(): MorphMany
     {
         return $this->morphMany(Photo::class, 'photoable');
+    }
+    public function producer(): BelongsTo
+    {
+         return $this->belongsTo(User::class, 'user_id'); 
+    }
+     public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }

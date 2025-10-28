@@ -1,10 +1,14 @@
 import { computed } from "vue";
 import { usePage } from "@inertiajs/vue3";
-import { mdiMonitorDashboard } from "@mdi/js";
+import { mdiMonitorDashboard, mdiStoreSearch, 
+        mdiPackageVariantPlus, 
+        mdiPackageVariantMinus, 
+        mdiClipboardListOutline,
+         } from "@mdi/js";
 import securityMenu from "./Menus/securityMenu";
 import profileMenus from "./profileMenu";
 import homeMenu from "./homeMenu";
-
+import catalogMenu from "./catalogMenu";
 export const baseMenu = [
     {
         labelGroup: "Inicio",
@@ -22,6 +26,42 @@ export const baseMenu = [
             ...profileMenus,
         ],
     },
+        {
+        labelGroup: "Catálogo",
+        items: [
+            ...catalogMenu,
+        ],
+    },
+        {
+        labelGroup: "Inventario",
+        permission: "inventoryEntry.index", 
+        items: [
+            {
+                label: "Entradas de Inventario",
+                route: "inventoryEntry.index",
+                icon: mdiPackageVariantPlus, 
+                permission: "inventoryEntry.index", 
+            },
+                        {
+                label: "Salidas de Inventario",
+                route: "inventoryExit.index",
+                icon: mdiPackageVariantMinus, 
+                permission: "inventoryExit.index", 
+            },
+        ],
+    },
+    {
+        labelGroup: "Gestión de Pedidos",
+        permission: "orders.index",
+        items: [
+            {
+                label: "Pedidos",
+                route: "orders.index",
+                icon: mdiClipboardListOutline, 
+                permission: "orders.index",
+            },
+        ],
+    }, 
     {
         labelGroup: "Administración",
         items: [
@@ -31,7 +71,14 @@ export const baseMenu = [
     {
         labelGroup: "Público",
         items: [
+
             ...homeMenu,
+            {
+                label: "Catálogo de Productos", 
+                route: "catalog.index",        
+                icon: mdiStoreSearch,          
+                permission: "menu.catalog",    
+            },
         ],
     },
 ];

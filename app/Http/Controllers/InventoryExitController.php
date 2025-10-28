@@ -26,7 +26,8 @@ class InventoryExitController extends Controller
     public function __construct()
     {
         $this->model = new InventoryExit();
-        // $this->middleware('role:producer');
+        $this->middleware("permission:{$this->routeName}index")->only(['index']);
+        $this->middleware("permission:{$this->routeName}store")->only(['store', 'create']);
     }
 
     public function index(Request $request): Response

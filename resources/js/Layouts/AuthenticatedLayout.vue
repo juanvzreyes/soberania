@@ -12,8 +12,8 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import Icon from '@/Components/Icon.vue';
-import { mdiMenu } from '@mdi/js';
-
+import { mdiMenu, mdiCartOutline } from '@mdi/js';
+import NotificationBell from '@/Components/NotificationBell.vue';
 defineProps({
     title: String,
 });
@@ -52,8 +52,13 @@ const mainContentClasses = computed(() => {
                         {{ title }}
                     </h1>
                 </div>
+                <div class="hidden md:flex items-center gap-2 mt-4">
+                    <NotificationBell />
+                </div>
 
-                <div class="md:hidden">
+                <div class="md:hidden flex items-center gap-2">
+                    <NotificationBell />
+
                     <Sheet>
                         <SheetTrigger as-child>
                             <Button variant="outline" size="icon" class="shrink-0">

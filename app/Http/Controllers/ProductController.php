@@ -38,12 +38,10 @@ class ProductController extends Controller
         $this->productService = $productService; 
         $this->photoService = $photoService;
 
-        // MIDDLEWARES DE AUTORIZACIÓN Y PERMISOS:
-        // Asegúrate de definir los permisos y la ProductPolicy
-        // $this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
-        // $this->middleware("permission:{$this->routeName}store")->only(['store', 'create']);
-        // $this->middleware("permission:{$this->routeName}update")->only(['update', 'edit']);
-        // $this->middleware("permission:{$this->routeName}delete")->only(['destroy']);
+        $this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
+        $this->middleware("permission:{$this->routeName}store")->only(['store', 'create']);
+        $this->middleware("permission:{$this->routeName}update")->only(['edit', 'update']);
+        $this->middleware("permission:{$this->routeName}delete")->only(['destroy']);
 
         // $this->authorizeResource(Product::class, 'product');
     }
@@ -70,8 +68,6 @@ class ProductController extends Controller
 
     public function create(): Response
     {
-        
-
         return Inertia::render("{$this->source}Create", [
             'title'      => 'Registrar Nuevo Producto',
             'routeName'  => $this->routeName,
