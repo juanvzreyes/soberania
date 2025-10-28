@@ -17,7 +17,7 @@
         </div>
 
         <div class="md:w-full mb-5">
-            <FormField label="Razón de la entrada" :error="form.errors.reason">
+            <FormField label="Razón de la entrada" required :error="form.errors.reason">
                 <FormControl v-model="form.reason" type="textarea"
                     placeholder="Describa la razón para registrar la entrada del producto" height="h-100"
                     :error="form.errors.reason" />

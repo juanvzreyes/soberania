@@ -19,9 +19,16 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'price' => $this->price,
+            'stock_quantity' => $this->stock_quantity,
             'is_available' => (bool) $this->is_available,
             'category' => new CategoryResource($this->whenLoaded('category')),
             'photos' => PhotoResource::collection($this->whenLoaded('photos')),
+            'producer' => $this->whenLoaded('producer', function() {
+                return [
+                    'id' => $this->producer->id,
+                    'name' => $this->producer->name,
+                ];
+            }),
         ];
     }
 }

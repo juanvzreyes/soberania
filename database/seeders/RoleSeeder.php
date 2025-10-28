@@ -35,16 +35,18 @@ class RoleSeeder extends Seeder
             'description' => 'Consumidor',
         ]);
 
-        $permissions = Permission::whereIn('module_key', ['menu', 'seg'])->get();
+        $permissions = Permission::whereIn('module_key', ['menu', 'seg', 'categories', 'products', 'inventory', 'cart', 'checkout', 'orders' ])->get();
         $admin->syncPermissions($permissions);
 
-        $permissions = Permission::whereIn('module_key', ['producer'])->get();
+        $permissions = Permission::whereIn('module_key', ['producer', 'products', 'inventory', 'orders' ])->get();
         $producer->syncPermissions($permissions);
 
-        $permissions = Permission::whereIn('module_key', ['cooperative'])->get();
+        $permissions = Permission::whereIn('module_key', ['cooperative', 'cart', 'checkout'])->get();
+        $permissions->push(Permission::where('name', 'menu.catalog')->first());
         $cooperative->syncPermissions($permissions);
 
-        $permissions = Permission::whereIn('module_key', ['consumer'])->get();
+        $permissions = Permission::whereIn('module_key', ['consumer', 'cart', 'checkout'])->get();
+        $permissions->push(Permission::where('name', 'menu.catalog')->first());
         $consumer->syncPermissions($permissions);
     }
 }

@@ -25,7 +25,7 @@
         </div>
 
         <div class="md:w-full mb-5">
-            <FormField label="Razón de la Salida" :error="form.errors.reason">
+            <FormField label="Razón de la Salida" required :error="form.errors.reason">
                 <FormControl v-model="form.reason" type="textarea"
                     placeholder="Describa la razón para registrar la salida (Ej: Venta local, Merma, Ajuste)"
                     height="h-100" :error="form.errors.reason" />

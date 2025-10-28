@@ -52,7 +52,7 @@ class User extends Authenticatable
         ];
     }
 
-        public function getRolesArray(): Collection
+    public function getRolesArray(): Collection
     {
         return $this->roles()->get()->mapWithKeys(function ($role) {
             return [$role['name'] => true];
@@ -87,5 +87,24 @@ class User extends Authenticatable
     public function consumer()
     {
         return $this->hasOne(Consumer::class);
+    }
+    
+    public function isCooperative(): bool
+    {
+        return $this->hasRole('Cooperative');
+    }
+
+    public function isConsumer(): bool
+    {
+        return $this->hasRole('Consumer');
+    }
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function unreadNotifications()
+    {
+        return $this->notifications()->where('is_read', false);
     }
 }

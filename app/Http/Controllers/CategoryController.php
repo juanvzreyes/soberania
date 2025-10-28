@@ -22,10 +22,11 @@ class CategoryController extends Controller
     {
         $this->model = new Category();
 
-        /*$this->middleware("permission:manage-categories-index")->only(['index', 'show']);
-        $this->middleware("permission:manage-categorieas-store")->only(['store', 'create']);
-        $this->middleware("permission:manage-categories-update")->only(['edit', 'update']);
-        $this->middleware("permission:manage-categories-delete")->only(['destroy']);*/
+        $this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
+        $this->middleware("permission:{$this->routeName}store")->only(['store', 'create']);
+        $this->middleware("permission:{$this->routeName}update")->only(['edit', 'update']);
+        $this->middleware("permission:{$this->routeName}delete")->only(['destroy']);
+        
     }
     public function index(Request $request): Response
     {
@@ -36,13 +37,13 @@ class CategoryController extends Controller
         }
 
         $categories = $query->orderBy('name', 'asc')
-            ->paginate(10) 
+            ->paginate(10)
             ->withQueryString();
 
         $categoriesResource = CategoryResource::collection($categories);
         $filters = [
             'search' => $request->query('search', ''),
-            'rows'   => $request->query('rows', 10), 
+            'rows'   => $request->query('rows', 10),
         ];
 
         return Inertia::render("{$this->source}Index", [
