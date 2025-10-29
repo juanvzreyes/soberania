@@ -38,7 +38,13 @@ class Payment extends Model
             self::STATUS_CANCELED => 'Cancelado',
         ];
     }
-    
+    public static function getMethodOptions(): array
+    {
+        return [
+            'contra_entrega' => 'Contra Entrega',
+            'transferencia' => 'Transferencia',
+        ];
+    }
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);

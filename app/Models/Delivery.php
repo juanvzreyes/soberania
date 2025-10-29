@@ -46,7 +46,6 @@ class Delivery extends Model
     {
         return $this->belongsTo(Order::class);
     }
-    
     public function transporter(): BelongsTo
     {
         return $this->belongsTo(User::class, 'transporter_id');

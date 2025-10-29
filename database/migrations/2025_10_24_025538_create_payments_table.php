@@ -20,7 +20,8 @@ return new class extends Migration
                 'Pendiente',      
                 'Confirmado',    
                 'Fallido',       
-                'Revertido',    
+                'Revertido',
+                'Cancelado',    
             ])->default('Pendiente');
             $table->timestamps();
         });
