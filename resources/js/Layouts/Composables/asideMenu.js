@@ -4,6 +4,9 @@ import { mdiMonitorDashboard, mdiStoreSearch,
         mdiPackageVariantPlus, 
         mdiPackageVariantMinus, 
         mdiClipboardListOutline,
+        mdiCreditCardOutline,
+        mdiTruckDelivery,
+        mdiHistory,
          } from "@mdi/js";
 import securityMenu from "./Menus/securityMenu";
 import profileMenus from "./profileMenu";
@@ -25,6 +28,7 @@ export const baseMenu = [
         items: [
             ...profileMenus,
         ],
+        
     },
         {
         labelGroup: "Catálogo",
@@ -60,6 +64,18 @@ export const baseMenu = [
                 icon: mdiClipboardListOutline, 
                 permission: "orders.index",
             },
+            {
+                label: "Pagos",
+                route: "payments.index",
+                icon: mdiCreditCardOutline, 
+                permission: "payments.index", 
+            },
+            {
+                label: "Entregas",
+                route: "deliveries.index",
+                icon: mdiTruckDelivery,
+                permission: "deliveries.index",
+            },
         ],
     }, 
     {
@@ -78,6 +94,12 @@ export const baseMenu = [
                 route: "catalog.index",        
                 icon: mdiStoreSearch,          
                 permission: "menu.catalog",    
+            },
+            {
+                label: "Mi Historial de Compras",
+                route: "purchase-history.index",
+                icon: mdiHistory,
+                permission: "purchase-history.index", 
             },
         ],
     },

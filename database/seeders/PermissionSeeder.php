@@ -77,6 +77,17 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'orders.show', 'guard_name' => 'web', 'description' => 'Ver detalle de Pedido', 'module_key' => 'orders']);
         Permission::create(['name' => 'orders.updateStatus', 'guard_name' => 'web', 'description' => 'Actualizar estado de Pedido', 'module_key' => 'orders']);
         Permission::create(['name' => 'orders.cancel', 'guard_name' => 'web', 'description' => 'Cancelar Pedido', 'module_key' => 'orders']);
+        
+        Permission::create(['name' => 'payments.index', 'guard_name' => 'web', 'description' => 'Ver lista de Pagos', 'module_key' => 'payments']);
+        Permission::create(['name' => 'payments.show', 'guard_name' => 'web', 'description' => 'Ver detalle de Pago', 'module_key' => 'payments']);
+        Permission::create(['name' => 'payments.updateStatus', 'guard_name' => 'web', 'description' => 'Actualizar estado de Pago', 'module_key' => 'payments']);
+        
+        Permission::create(['name' => 'deliveries.index', 'guard_name' => 'web', 'description' => 'Ver Entregas', 'module_key' => 'deliveries']);
+        Permission::create(['name' => 'deliveries.show', 'guard_name' => 'web', 'description' => 'Ver Detalle de Entrega', 'module_key' => 'deliveries']);
+        Permission::create(['name' => 'deliveries.updateStatus', 'guard_name' => 'web', 'description' => 'Actualizar Estado de Entrega', 'module_key' => 'deliveries']);
     
+        Permission::create(['name' => 'purchase-history.index', 'guard_name' => 'web', 'description' => 'Ver lista de Compras', 'module_key' => 'purchase-history']);
+        Permission::create(['name' => 'purchase-history.show', 'guard_name' => 'web', 'description' => 'Ver detalle de Compra', 'module_key' => 'purchase-history']);
+        Permission::create(['name' => 'purchase-history.reorder', 'guard_name' => 'web', 'description' => 'Reordenar una Compra', 'module_key' => 'purchase-history']);
     }
 }
