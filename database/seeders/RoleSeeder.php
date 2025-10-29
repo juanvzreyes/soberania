@@ -35,17 +35,17 @@ class RoleSeeder extends Seeder
             'description' => 'Consumidor',
         ]);
 
-        $permissions = Permission::whereIn('module_key', ['menu', 'seg', 'categories', 'products', 'inventory', 'cart', 'checkout', 'orders' ])->get();
+        $permissions = Permission::whereIn('module_key', ['menu', 'seg', 'categories', 'products', 'inventory', 'cart', 'checkout', 'orders', 'payments', 'deliveries', 'purchase-history' ])->get();
         $admin->syncPermissions($permissions);
 
-        $permissions = Permission::whereIn('module_key', ['producer', 'products', 'inventory', 'orders' ])->get();
+        $permissions = Permission::whereIn('module_key', ['producer', 'products', 'inventory', 'orders', 'payments', 'deliveries' ])->get();
         $producer->syncPermissions($permissions);
 
-        $permissions = Permission::whereIn('module_key', ['cooperative', 'cart', 'checkout'])->get();
+        $permissions = Permission::whereIn('module_key', ['cooperative', 'cart', 'checkout', 'purchase-history' ])->get();
         $permissions->push(Permission::where('name', 'menu.catalog')->first());
         $cooperative->syncPermissions($permissions);
 
-        $permissions = Permission::whereIn('module_key', ['consumer', 'cart', 'checkout'])->get();
+        $permissions = Permission::whereIn('module_key', ['consumer', 'cart', 'checkout', 'purchase-history'])->get();
         $permissions->push(Permission::where('name', 'menu.catalog')->first());
         $consumer->syncPermissions($permissions);
     }

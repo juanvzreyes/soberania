@@ -22,6 +22,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OrderManagementController;
 use App\Http\Controllers\DeliveryManagementController;
 use App\Http\Controllers\PaymentManagementController;
+use App\Http\Controllers\PurchaseHistoryController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -95,6 +96,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/payments/{payment}/status', [PaymentManagementController::class, 'updateStatus'])->name('payments.update-status');
     Route::post('/payments/{payment}/revert', [PaymentManagementController::class, 'revert'])->name('payments.revert');
     Route::post('/payments/{payment}/upload-proof', [PaymentManagementController::class, 'uploadProof'])->name('payments.upload-proof');
+    
+    Route::prefix('purchase-history')->name('purchase-history.')->group(function () {
+        Route::get('/', [PurchaseHistoryController::class, 'index'])->name('index');
+        Route::get('/{order}', [PurchaseHistoryController::class, 'show'])->name('show');
+        Route::post('/{order}/reorder', [PurchaseHistoryController::class, 'reorder'])->name('reorder');
+    });
 });
 Route::get('orders/{order}/confirmation', [CheckoutController::class, 'confirmation'])
     ->name('orders.confirmation')
