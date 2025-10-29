@@ -103,6 +103,12 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->hasRole('Consumer');
     }
+
+       public function isAdmin(): bool
+    {
+        return $this->hasRole('Admin');
+    }
+
     public function notifications()
     {
         return $this->hasMany(Notification::class);

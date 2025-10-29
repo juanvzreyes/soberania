@@ -11,7 +11,6 @@ return new class extends Migration
         Schema::create('deliveries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->unique()->constrained('orders')->onDelete('cascade'); 
-            //$table->foreignId('transporter_id')->nullable()->constrained('users')->onDelete('set null'); 
             $table->timestamp('estimated_delivery_date')->nullable();
             
             $table->enum('status', [

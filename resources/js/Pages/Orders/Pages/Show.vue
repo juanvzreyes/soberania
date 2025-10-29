@@ -22,6 +22,7 @@
                         {{ order.status }}
                     </span>
                 </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <CardBox>
                         <h3 class="font-semibold text-lg mb-3 text-gray-900 dark:text-gray-100">
@@ -33,7 +34,13 @@
                         </div>
                     </CardBox>
 
-                    <CardBox>
+                    <CardBox class="relative">
+                        <Link v-if="order.payment" :href="route('payments.show', order.payment.id)"
+                            class="absolute top-4 right-4 text-blue-600 hover:underline text-xs flex items-center gap-1">
+                        <BaseIcon :path="mdiOpenInNew" :size="14" />
+                        Gestionar
+                        </Link>
+
                         <h3 class="font-semibold text-lg mb-3 text-gray-900 dark:text-gray-100">
                             Información de Pago
                         </h3>
@@ -52,6 +59,7 @@
                         </div>
                     </CardBox>
                 </div>
+
                 <CardBox class="mb-6">
                     <h3 class="font-semibold text-lg mb-4 text-gray-900 dark:text-gray-100">
                         Productos
@@ -84,12 +92,22 @@
                         </table>
                     </div>
                 </CardBox>
-                <CardBox class="mb-6">
+                <CardBox class="mb-6 relative">
+                    <Link v-if="order.delivery" :href="route('deliveries.show', order.delivery.id)"
+                        class="absolute top-4 right-4 text-blue-600 hover:underline text-xs flex items-center gap-1">
+                    <BaseIcon :path="mdiOpenInNew" :size="14" />
+                    Gestionar
+                    </Link>
+
                     <h3 class="font-semibold text-lg mb-3 text-gray-900 dark:text-gray-100">
                         Información de Entrega
                     </h3>
                     <div class="space-y-2 text-sm">
-                        <p><strong>Estado:</strong> {{ order.delivery?.status }}</p>
+                        <p><strong>Estado:</strong>
+                            <span :class="getDeliveryStatusClass(order.delivery?.status)">
+                                {{ order.delivery?.status }}
+                            </span>
+                        </p>
                         <p><strong>Fecha estimada:</strong>
                             {{ order.delivery?.estimated_delivery_date ?
                                 formatDate(order.delivery.estimated_delivery_date) : 'Por confirmar' }}
@@ -104,6 +122,27 @@
                     <h3 class="font-semibold text-lg mb-4 text-gray-900 dark:text-gray-100">
                         Cambiar Estado del Pedido
                     </h3>
+                    <div v-if="statusForm.status === 'En preparación' && order.payment?.status !== 'Confirmado'"
+                        class="mb-4 p-3 bg-yellow-100 dark:bg-yellow-900/20 border border-yellow-300 dark:border-yellow-700 rounded-lg text-sm">
+                        Para cambiar a "En preparación", primero debes
+                        <Link :href="route('payments.show', order.payment.id)" class="underline font-semibold">confirmar
+                        el pago</Link>.
+                    </div>
+
+                    <div v-if="statusForm.status === 'En camino' && order.delivery?.status !== 'En camino'"
+                        class="mb-4 p-3 bg-yellow-100 dark:bg-yellow-900/20 border border-yellow-300 dark:border-yellow-700 rounded-lg text-sm">
+                        Para cambiar a "En camino", primero debes
+                        <Link :href="route('deliveries.show', order.delivery.id)" class="underline font-semibold">marcar
+                        la entrega como "En camino"</Link>.
+                    </div>
+
+                    <div v-if="statusForm.status === 'Entregado' && order.delivery?.status !== 'Entregado'"
+                        class="mb-4 p-3 bg-yellow-100 dark:bg-yellow-900/20 border border-yellow-300 dark:border-yellow-700 rounded-lg text-sm">
+                        Para marcar como "Entregado", primero debes
+                        <Link :href="route('deliveries.show', order.delivery.id)" class="underline font-semibold">
+                        confirmar la entrega</Link>.
+                    </div>
+
                     <form @submit.prevent="updateStatus">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FormField label="Nuevo Estado">
@@ -118,24 +157,7 @@
                         </div>
 
                         <BaseButtons class="mt-4">
-                            <BaseButton type="submit" color="success" label="Actualizar Estado" :icon="mdiCheckCircle"
-                                :disabled="processing" />
-                        </BaseButtons>
-                    </form>
-                </CardBox>
-                <CardBox v-if="order.status === 'Pendiente'"
-                    class="bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 mt-6">
-                    <h3 class="font-semibold text-lg mb-4 text-gray-900 dark:text-gray-100">
-                        Cancelar Pedido
-                    </h3>
-                    <form @submit.prevent="cancelOrder">
-                        <FormField label="Razón de cancelación">
-                            <FormControl v-model="cancelForm.reason" type="textarea"
-                                placeholder="Explica por qué se cancela el pedido..." rows="3" required />
-                        </FormField>
-
-                        <BaseButtons class="mt-4">
-                            <BaseButton type="submit" color="danger" label="Cancelar Pedido" :icon="mdiClose"
+                            <BaseButton type="submit"  label="Actualizar Estado" :icon="mdiCheckCircle"
                                 :disabled="processing" />
                         </BaseButtons>
                     </form>
@@ -155,7 +177,7 @@ import FormControl from '@/Components/FormControl.vue';
 import BaseButton from '@/Components/BaseButton.vue';
 import BaseButtons from '@/Components/BaseButtons.vue';
 import BaseIcon from '@/Components/BaseIcon.vue';
-import { mdiArrowLeft, mdiCheckCircle, mdiClose } from '@mdi/js';
+import { mdiArrowLeft, mdiCheckCircle, mdiClose, mdiOpenInNew } from '@mdi/js';
 
 const props = defineProps({
     order: Object,
@@ -222,10 +244,23 @@ const getStatusClass = (status) => {
 
 const getPaymentStatusClass = (status) => {
     const classes = {
-        'Pendiente': 'text-yellow-600',
-        'Confirmado': 'text-green-600',
-        'Fallido': 'text-red-600',
-        'Revertido': 'text-orange-600',
+        'Pendiente': 'text-yellow-600 font-semibold',
+        'Confirmado': 'text-green-600 font-semibold',
+        'Fallido': 'text-red-600 font-semibold',
+        'Revertido': 'text-orange-600 font-semibold',
+        'Cancelado': 'text-gray-600 font-semibold',
+    };
+    return classes[status] || 'text-gray-600';
+};
+
+const getDeliveryStatusClass = (status) => {
+    const classes = {
+        'Inicial': 'text-gray-600 font-semibold',
+        'En preparación': 'text-blue-600 font-semibold',
+        'En camino': 'text-purple-600 font-semibold',
+        'Entregado': 'text-green-600 font-semibold',
+        'Incidencia': 'text-orange-600 font-semibold',
+        'Cancelado': 'text-red-600 font-semibold',
     };
     return classes[status] || 'text-gray-600';
 };
@@ -239,6 +274,7 @@ const formatDate = (date) => {
         minute: '2-digit'
     });
 };
+
 const getPhotoUrl = (photos) => {
     if (photos && photos.length > 0) {
         if (photos[0].url) {
