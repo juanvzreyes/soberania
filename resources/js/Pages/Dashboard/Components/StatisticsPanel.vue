@@ -32,7 +32,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <CardBoxWidget trend=" " color="info" :icon="isAdmin ? mdiAccountGroup : mdiPackageVariant"
-                    :number="stats.activeProducers" :label="isAdmin ? 'Productores Activos' : 'Mis Productos Listados'"
+                    :number="stats.primaryStat" :label="isAdmin ? 'Productores Activos' : 'Mis Productos Listados'"
                     :tooltip="isAdmin ? 'Total de productores no eliminados' : 'Total de mis productos activos'"
                     class="hover:scale-[1.02] transition-transform duration-300 ease-out" />
 
@@ -136,7 +136,7 @@ const props = defineProps({
 });
 
 const isAdmin = computed(() => {
-    return props.auth && props.auth.roles && Object.values(props.auth.roles).some(role => role.name === 'Admin');
+    return props.auth?.roles?.Admin === true;
 });
 
 const startDate = ref(props.filters.startDate);

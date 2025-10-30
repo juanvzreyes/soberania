@@ -38,6 +38,7 @@ class DashboardController extends Controller
                     ->join('products', 'order_items.product_id', '=', 'products.id')
                     ->join('orders', 'order_items.order_id', '=', 'orders.id')
                     ->select('products.name', DB::raw('SUM(order_items.quantity) as total_sold'))
+                    ->whereNull('products.deleted_at')
                     ->whereBetween('orders.created_at', [$startDate, $endDate])
                     ->groupBy('products.name')
                     ->orderByDesc('total_sold')
@@ -46,7 +47,7 @@ class DashboardController extends Controller
 
                 return Inertia::render("{$this->source}Pages/Index", [
                     'stats' => [
-                        'activeProducers' => $activeProducers,
+                        'primaryStat' => $activeProducers,
                         'totalOrders' => $totalOrders,
                         'totalSales' => $totalSales,
                         'topProducts' => $topProducts,
@@ -80,7 +81,7 @@ class DashboardController extends Controller
 
                 return Inertia::render("{$this->source}Pages/Index", [
                     'stats' => [
-                        'activeProducers' => $totalListedProducts,
+                        'primaryStat' => $totalListedProducts,
                         'totalOrders' => $totalOrders,
                         'totalSales' => $totalSales,
                         'topProducts' => $topProducts,
