@@ -3,7 +3,9 @@ import LocationsMap from '@/Components/LocationsMap.vue';
 import LandingLayout from '@/Layouts/LandingLayout.vue';
 import HeadLogo from '@/Components/HeadLogo.vue';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/ui/card';
-import { MapPin } from 'lucide-vue-next';
+import { Download, MapPin } from 'lucide-vue-next';
+import CardFooter from '@/Components/ui/card/CardFooter.vue';
+import Button from '@/components/ui/button/Button.vue';
 
 const props = defineProps({
     canLogin: Boolean,
@@ -32,6 +34,15 @@ const props = defineProps({
                 <CardContent>
                     <LocationsMap :locations="props.locations" />
                 </CardContent>
+                <CardFooter class="flex justify-center pt-6">
+                    <a :href="route('producer.report')">
+                        <Button variant="outline"
+                            class="text-emerald-700 border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800 dark:text-emerald-400 dark:border-emerald-600 dark:hover:bg-emerald-900/50 dark:hover:text-emerald-300 transition-colors duration-200">
+                            <Download class="w-4 h-4 mr-2" />
+                            Descargar Lista de Productores (PDF)
+                        </Button>
+                    </a>
+                </CardFooter>
             </Card>
         </div>
     </LandingLayout>

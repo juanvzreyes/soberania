@@ -118,4 +118,9 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->notifications()->where('is_read', false);
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

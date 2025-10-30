@@ -23,6 +23,7 @@ use App\Http\Controllers\OrderManagementController;
 use App\Http\Controllers\DeliveryManagementController;
 use App\Http\Controllers\PaymentManagementController;
 use App\Http\Controllers\PurchaseHistoryController;
+use App\Http\Controllers\Web\ProducerReportController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -34,6 +35,7 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::resource('producers/map', ProducerLocationController::class)->only('index')->names('producer.map');
+Route::get('producers/report', [ProducerReportController::class, 'generateReport'])->name('producer.report');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
