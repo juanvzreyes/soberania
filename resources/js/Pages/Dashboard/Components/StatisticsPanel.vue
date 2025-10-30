@@ -1,7 +1,7 @@
 <template>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <CardBox :title="'Filtros'" :icon="mdiFilterVariant" class="mb-6">
+            <CardBox :title="'Filtros y Acciones'" :icon="mdiFilterVariant" class="mb-6">
                 <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full sm:w-auto">
@@ -25,6 +25,38 @@
                         <Button @click="resetFilters" variant="outline" class="w-full sm:w-auto">
                             Resetear
                         </Button>
+
+                        <TooltipProvider>
+                            <template v-if="isAdmin">
+                                <TooltipRoot>
+                                    <TooltipTrigger as-child>
+                                        <a
+                                            :href="route('dashboard.export.excel', { start_date: startDate, end_date: endDate })">
+                                            <Button variant="outline" size="icon" class="w-10 h-10">
+                                                <BaseIcon :path="mdiFileExcel" />
+                                            </Button>
+                                        </a>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Exportar a Excel (.xlsx)</p>
+                                    </TooltipContent>
+                                </TooltipRoot>
+
+                                <TooltipRoot>
+                                    <TooltipTrigger as-child>
+                                        <a
+                                            :href="route('dashboard.export.pdf', { start_date: startDate, end_date: endDate })">
+                                            <Button variant="outline" size="icon" class="w-10 h-10">
+                                                <BaseIcon :path="mdiFilePdfBox" />
+                                            </Button>
+                                        </a>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Exportar a PDF</p>
+                                    </TooltipContent>
+                                </TooltipRoot>
+                            </template>
+                        </TooltipProvider>
                     </div>
 
                 </div>
@@ -89,43 +121,21 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import { Bar } from 'vue-chartjs';
-import {
-    Chart as ChartJS,
-    Title,
-    Tooltip,
-    Legend,
-    BarElement,
-    CategoryScale,
-    LinearScale,
-    LineElement,
-    PointElement
-} from 'chart.js';
-import {
-    mdiAccountGroup,
-    mdiCartOutline,
-    mdiCashMultiple,
-    mdiFilterVariant,
-    mdiChartBar,
-    mdiViewList,
-    mdiPackageVariant
-} from '@mdi/js';
+import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement, PointElement } from 'chart.js';
+import { mdiAccountGroup, mdiCartOutline, mdiCashMultiple, mdiFilterVariant, mdiChartBar, mdiViewList, mdiPackageVariant, mdiFileExcel, mdiFilePdfBox } from '@mdi/js';
 import CardBox from '@/Components/CardBox.vue';
 import CardBoxWidget from '@/Components/CardBoxWidget.vue';
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
-
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/Components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
+import { TooltipProvider, TooltipTrigger, TooltipContent } from '@/Components/ui/tooltip';
+import BaseIcon from '@/Components/BaseIcon.vue';
+import { TooltipRoot } from 'reka-ui';
+import { useDashboardFilters } from '../Composables/useDashboardFilters';
+import { useBarChart } from '../Composables/useBarChart';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, LineElement, PointElement);
 
@@ -139,80 +149,7 @@ const isAdmin = computed(() => {
     return props.auth?.roles?.Admin === true;
 });
 
-const startDate = ref(props.filters.startDate);
-const endDate = ref(props.filters.endDate);
+const { startDate, endDate, applyFilters, resetFilters } = useDashboardFilters(props);
+const { chartData, chartOptions } = useBarChart(props);
 
-const applyFilters = () => {
-    router.get(route('dashboard'), {
-        start_date: startDate.value,
-        end_date: endDate.value,
-    }, {
-        preserveState: true,
-        replace: true,
-    });
-};
-
-const resetFilters = () => {
-    startDate.value = props.filters.startDate;
-    endDate.value = props.filters.endDate;
-    applyFilters();
-};
-
-const chartColors = [
-    { start: 'rgba(54, 162, 235, 0.8)', end: 'rgba(54, 162, 235, 0.1)' },
-    { start: 'rgba(255, 99, 132, 0.8)', end: 'rgba(255, 99, 132, 0.1)' },
-    { start: 'rgba(75, 192, 192, 0.8)', end: 'rgba(75, 192, 192, 0.1)' },
-    { start: 'rgba(255, 206, 86, 0.8)', end: 'rgba(255, 206, 86, 0.1)' },
-    { start: 'rgba(153, 102, 255, 0.8)', end: 'rgba(153, 102, 255, 0.1)' },
-    { start: 'rgba(255, 159, 64, 0.8)', end: 'rgba(255, 159, 64, 0.1)' },
-];
-
-const chartData = computed(() => {
-    return {
-        labels: props.stats.topProducts.map(p => p.name),
-        datasets: [{
-            label: 'Unidades Vendidas',
-            backgroundColor: (context) => {
-                const chart = context.chart;
-                const { ctx, chartArea } = chart;
-                if (!chartArea) {
-                    return null;
-                }
-
-                const index = context.dataIndex;
-                const color = chartColors[index % chartColors.length];
-
-                const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-                gradient.addColorStop(0, color.end);
-                gradient.addColorStop(1, color.start);
-                return gradient;
-            },
-            borderColor: chartColors.map(c => c.start.replace('0.8', '1')),
-            borderWidth: 2,
-            borderRadius: 4,
-            data: props.stats.topProducts.map(p => p.total_sold),
-        }]
-    };
-});
-
-const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-        legend: { display: false }
-    },
-    scales: {
-        y: {
-            beginAtZero: true,
-            ticks: { color: '#9CA3AF', font: { weight: 'bold' } },
-            grid: { display: false },
-            border: { display: false }
-        },
-        x: {
-            ticks: { color: '#9CA3AF', font: { weight: 'bold' } },
-            grid: { display: false },
-            border: { display: false }
-        }
-    }
-};
 </script>

@@ -96,14 +96,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/payments/{payment}/status', [PaymentManagementController::class, 'updateStatus'])->name('payments.update-status');
     Route::post('/payments/{payment}/revert', [PaymentManagementController::class, 'revert'])->name('payments.revert');
     Route::post('/payments/{payment}/upload-proof', [PaymentManagementController::class, 'uploadProof'])->name('payments.upload-proof');
-    
+
     Route::prefix('purchase-history')->name('purchase-history.')->group(function () {
         Route::get('/', [PurchaseHistoryController::class, 'index'])->name('index');
         Route::get('/{order}', [PurchaseHistoryController::class, 'show'])->name('show');
         Route::post('/{order}/reorder', [PurchaseHistoryController::class, 'reorder'])->name('reorder');
     });
+
+    Route::prefix('dashboard/export')->name('dashboard.export.')->group(function () {
+        Route::get('excel', [DashboardController::class, 'exportExcel'])->name('excel');
+        Route::get('pdf', [DashboardController::class, 'exportPdf'])->name('pdf');
+    });
 });
+
 Route::get('orders/{order}/confirmation', [CheckoutController::class, 'confirmation'])
     ->name('orders.confirmation')
     ->middleware('auth');
+
 require __DIR__ . '/auth.php';
