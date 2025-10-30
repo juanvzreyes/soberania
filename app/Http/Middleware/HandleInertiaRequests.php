@@ -40,6 +40,17 @@ class HandleInertiaRequests extends Middleware
                 'roles' => $request->user() ? $request->user()->getRolesArray() : [],
                 'can' => $request->user() ? $request->user()->getPermissionArray() : [],
             ],
+            'flash' => function () use ($request) {
+                foreach (['success', 'error', 'danger', 'warning', 'info', 'isBanned'] as $key) {
+                    if ($message = $request->session()->get($key)) {
+                        return [
+                            'type' => $key,
+                            'message' => $message,
+                        ];
+                    }
+                }
+                return null;
+            },
         ];
     }
 }

@@ -12,8 +12,10 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import Icon from '@/Components/Icon.vue';
-import { mdiMenu, mdiCartOutline } from '@mdi/js';
+import { mdiMenu } from '@mdi/js';
 import NotificationBell from '@/Components/NotificationBell.vue';
+import FlashMessage from '@/Components/FlashMessage.vue';
+
 defineProps({
     title: String,
 });
@@ -35,6 +37,10 @@ const mainContentClasses = computed(() => {
 </script>
 
 <template>
+    <div class="fixed top-5 right-5 z-50 w-full max-w-md">
+        <FlashMessage />
+    </div>
+
     <div class="min-h-screen w-full bg-gray-100">
         <Sidebar>
             <SidebarHeader />
