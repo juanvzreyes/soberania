@@ -35,7 +35,9 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::resource('producers/map', ProducerLocationController::class)->only('index')->names('producer.map');
-Route::get('producers/report', [ProducerReportController::class, 'generateReport'])->name('producer.report');
+Route::get('producers/report', [ProducerReportController::class, 'index'])->name('producer.report.index');
+Route::get('producers/report/pdf', [ProducerReportController::class, 'generatePdf'])->name('producer.report.pdf');
+Route::get('producers/report/excel', [ProducerReportController::class, 'generateExcel'])->name('producer.report.excel');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');

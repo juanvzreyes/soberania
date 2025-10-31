@@ -2,28 +2,57 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Exports\ProducersExport;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProducerReportController extends Controller
 {
-    public function generateReport()
+    protected string $routeName;
+    protected string $source;
+
+    public function __construct()
+    {
+        $this->routeName = "users.";
+        $this->source    = "Report/";
+
+        $this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
+    }
+
+    public function index()
     {
         $producers = User::whereHas('roles', function ($query) {
             $query->where('name', 'Producer');
         })
-            ->with([
-                'products',
-                'producer.location',
-            ])->get();
+            ->with(['products', 'producer.location'])
+            ->get();
         $chartData = $this->prepareChartData($producers);
+
+        return Inertia::render("{$this->source}Index", [
+            'title'     => 'Reporte de Productores',
+            'routeName' => $this->routeName,
+            'producers' => $producers,
+            'chartData' => $chartData,
+        ]);
+    }
+
+    public function generatePdf()
+    {
+        $producers = User::whereHas('roles', function ($query) {
+            $query->where('name', 'Producer');
+        })->with(['products', 'producer.location'])->get();
+        $chartData = $this->prepareChartData($producers);
+
         $pdf = Pdf::loadView('reports.producers', [
             'producers' => $producers,
             'chartData' => $chartData,
         ]);
+
         return $pdf->download('productores.pdf');
     }
 
@@ -69,5 +98,10 @@ class ProducerReportController extends Controller
         }
 
         return ['url' => $base64Image];
+    }
+
+    public function generateExcel()
+    {
+        return Excel::download(new ProducersExport, 'productores.xlsx');
     }
 }

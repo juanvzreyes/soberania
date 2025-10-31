@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Com
 import { Download, MapPin } from 'lucide-vue-next';
 import CardFooter from '@/Components/ui/card/CardFooter.vue';
 import Button from '@/components/ui/button/Button.vue';
+import { mdiFileExcel, mdiFilePdfBox } from '@mdi/js';
 
 const props = defineProps({
     canLogin: Boolean,
@@ -35,13 +36,31 @@ const props = defineProps({
                     <LocationsMap :locations="props.locations" />
                 </CardContent>
                 <CardFooter class="flex justify-center pt-6">
-                    <a :href="route('producer.report')">
-                        <Button variant="outline"
-                            class="text-emerald-700 border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800 dark:text-emerald-400 dark:border-emerald-600 dark:hover:bg-emerald-900/50 dark:hover:text-emerald-300 transition-colors duration-200">
-                            <Download class="w-4 h-4 mr-2" />
-                            Descargar Lista de Productores (PDF)
-                        </Button>
-                    </a>
+                    <div class="flex items-center gap-3">
+                        <a :href="route('producer.report.pdf')">
+                            <Button variant="outline" class="text-emerald-700 border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800 
+               dark:text-emerald-400 dark:border-emerald-600 dark:hover:bg-emerald-900/50 
+               dark:hover:text-emerald-300 transition-colors duration-200">
+                                <svg class="w-4 h-4 mr-2 fill-current" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path :d="mdiFilePdfBox" />
+                                </svg>
+                                Descargar Lista de Productores (PDF)
+                            </Button>
+                        </a>
+
+                        <a :href="route('producer.report.excel')">
+                            <Button variant="outline" class="text-emerald-700 border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800 
+               dark:text-emerald-400 dark:border-emerald-600 dark:hover:bg-emerald-900/50 
+               dark:hover:text-emerald-300 transition-colors duration-200">
+                                <svg class="w-4 h-4 mr-2 fill-current" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path :d="mdiFileExcel" />
+                                </svg>
+                                Descargar Lista de Productores (Excel)
+                            </Button>
+                        </a>
+                    </div>
                 </CardFooter>
             </Card>
         </div>
