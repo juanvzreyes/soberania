@@ -94,7 +94,6 @@ export const baseMenu = [
         ],
         
     },    
-    },
     {
         labelGroup: "Reportes",
         items: [
