@@ -9,7 +9,7 @@
                 </FormField>
             </div>
             <div class="md:w-1/2 max-lg:mb-5">
-                <FormField label="Cantidad de Entrada" required :error="form.errors.quantity">
+                <FormField label="Cantidad de Entrada(Kgs/Lts)" required :error="form.errors.quantity">
                     <FormControl v-model="form.quantity" type="number" height="h-10" placeholder="Ej. 16"
                         :error="form.errors.quantity" />
                 </FormField>

@@ -5,8 +5,8 @@
             <CardBox class="mb-6 p-6">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <FormField label="Estado">
-                        <FormControl v-model="filters.status" type="select" :options="statusOptions"
-                            placeholder="Todos los estados" @change="applyFilters" />
+                        <FormControl v-model="filters.status" type="select" :options="statusOptionsArray"
+                            placeholder="Todos los estados" @update:modelValue="handleStatusChange" />
                     </FormField>
 
                     <FormField label="Desde">
@@ -76,8 +76,8 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
                                     <BaseButtons>
-                                        <BaseButton :href="route('orders.show', order.id)" color="info" :icon="mdiEye"
-                                            small label="Ver" />
+                                        <BaseButton :href="route('orders.show', order.id)" color="" :icon="mdiEye" small
+                                            label="Ver" />
                                     </BaseButtons>
                                 </td>
                             </tr>
@@ -98,7 +98,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import { router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import SectionTitleLineWithButton from '@/Components/SectionTitleLineWithButton.vue';
@@ -123,6 +123,19 @@ const filters = reactive({
     date_from: props.filters.date_from || '',
     date_to: props.filters.date_to || '',
 });
+
+const statusOptionsArray = computed(() => {
+    if (!props.statusOptions) return [];
+    return Object.keys(props.statusOptions);
+});
+const handleStatusChange = (newValue) => {
+    if (typeof newValue === 'object' && newValue !== null) {
+        filters.status = newValue.value || '';
+    } else {
+        filters.status = newValue || '';
+    }
+    applyFilters();
+};
 
 const applyFilters = () => {
     router.get(route('orders.index'), filters, {

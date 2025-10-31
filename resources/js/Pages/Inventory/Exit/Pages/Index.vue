@@ -3,7 +3,6 @@
         <HeadLogo :title="title" />
         <AuthenticatedLayout>
             <SectionTitleLineWithButton :icon="mdiViewModule" :title="title" main>
-                <BaseButton color="forest" :icon="mdiPlus" label="Nueva Entrada" :routeName="`${routeName}create`" />
             </SectionTitleLineWithButton>
 
             <SearchBar @apply-filters="applyFilters" @clear-filters="clearFilters" v-model:search="filters.search"
@@ -71,12 +70,12 @@ const props = defineProps({
 const { filters, clearFilters, applyFilters } = useFilters(props.filters, props.routeName);
 
 onMounted(() => {
-    // Manejo de notificaciones flash
-    if (props.flash.success) {
+    const flash = props.flash || {};
+    if (flash.success) {
         Swal.fire({ icon: "success", title: "Éxito", text: props.flash.success });
-    } else if (props.flash.error) {
+    } else if (flash.error) {
         Swal.fire({ icon: "error", title: "Error", text: props.flash.error });
-    } else if (props.flash.warning) {
+    } else if (flash.warning) {
         Swal.fire({ icon: "warning", title: "Aviso", text: props.flash.warning });
     }
 });

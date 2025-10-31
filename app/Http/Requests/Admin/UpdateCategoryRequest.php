@@ -13,16 +13,21 @@ class UpdateCategoryRequest extends FormRequest
     }
     public function rules(): array
     {
-        $categoryId = $this->route('category')->id; 
+        if ($this->has('is_active') && $this->keys() === ['is_active']) {
+            return [
+                'is_active' => ['required', 'boolean'],
+            ];
+        }
+        $categoryId = $this->route('category')->id;
         return [
             'name' => [
-                'required', 
-                'string', 
-                'max:255', 
+                'required',
+                'string',
+                'max:255',
                 Rule::unique('categories', 'name')->ignore($categoryId),
             ],
             'description' => ['nullable', 'string', 'max:500'],
-            'is_active' => ['required', 'boolean'],
+            'is_active' => ['sometimes', 'boolean'],
         ];
     }
     public function messages(): array
