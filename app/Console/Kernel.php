@@ -12,6 +12,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('notifications:delivery-reminders')
             ->dailyAt('08:00')
             ->timezone('America/Mexico_City');
+            
     }
 
     protected function commands(): void
@@ -19,5 +20,6 @@ class Kernel extends ConsoleKernel
         $this->load(__DIR__.'/Commands');
 
         require base_path('routes/console.php');
+        
     }
 }

@@ -89,5 +89,12 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'purchase-history.index', 'guard_name' => 'web', 'description' => 'Ver lista de Compras', 'module_key' => 'purchase-history']);
         Permission::create(['name' => 'purchase-history.show', 'guard_name' => 'web', 'description' => 'Ver detalle de Compra', 'module_key' => 'purchase-history']);
         Permission::create(['name' => 'purchase-history.reorder', 'guard_name' => 'web', 'description' => 'Reordenar una Compra', 'module_key' => 'purchase-history']);
+    
+        Permission::create(['name' => 'backups.index', 'guard_name' => 'web', 'description' => 'Ver Respaldos', 'module_key' => 'backups']);
+        Permission::create(['name' => 'backups.export', 'guard_name' => 'web', 'description' => 'Exportar Base de Datos', 'module_key' => 'backups']);
+        Permission::create(['name' => 'backups.restore', 'guard_name' => 'web', 'description' => 'Restaurar Base de Datos', 'module_key' => 'backups']);
+        Permission::create(['name' => 'backups.download', 'guard_name' => 'web', 'description' => 'Descargar Respaldo', 'module_key' => 'backups']);
+        Permission::create(['name' => 'backups.delete', 'guard_name' => 'web', 'description' => 'Eliminar Respaldo', 'module_key' => 'backups']);
+
     }
 }

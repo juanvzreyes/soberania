@@ -23,6 +23,7 @@ use App\Http\Controllers\OrderManagementController;
 use App\Http\Controllers\DeliveryManagementController;
 use App\Http\Controllers\PaymentManagementController;
 use App\Http\Controllers\PurchaseHistoryController;
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\Web\ProducerReportController;
 
 Route::get('/', function () {
@@ -106,6 +107,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{order}', [PurchaseHistoryController::class, 'show'])->name('show');
         Route::post('/{order}/reorder', [PurchaseHistoryController::class, 'reorder'])->name('reorder');
     });
+    Route::prefix('backups')->name('backups.')->group(function () {
+        Route::get('/', [BackupController::class, 'index'])->name('index');
+        Route::post('/export', [BackupController::class, 'export'])->name('export');
+        Route::post('/restore', [BackupController::class, 'restore'])->name('restore');
 
     Route::prefix('dashboard/export')->name('dashboard.export.')->group(function () {
         Route::get('excel', [DashboardController::class, 'exportExcel'])->name('excel');
