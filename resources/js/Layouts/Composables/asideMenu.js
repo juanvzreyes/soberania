@@ -7,6 +7,7 @@ import { mdiMonitorDashboard, mdiStoreSearch,
         mdiCreditCardOutline,
         mdiTruckDelivery,
         mdiHistory,
+        mdiDatabaseCog,
          } from "@mdi/js";
 import securityMenu from "./Menus/securityMenu";
 import profileMenus from "./profileMenu";
@@ -82,7 +83,14 @@ export const baseMenu = [
         labelGroup: "Administración",
         items: [
             ...securityMenu,
+            {
+                label: "Respaldo de BD",
+                route: "backups.index",
+                icon: mdiDatabaseCog,
+                permission: "backups.index",
+            },
         ],
+        
     },    
     {
         labelGroup: "Público",

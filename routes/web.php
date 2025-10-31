@@ -23,7 +23,7 @@ use App\Http\Controllers\OrderManagementController;
 use App\Http\Controllers\DeliveryManagementController;
 use App\Http\Controllers\PaymentManagementController;
 use App\Http\Controllers\PurchaseHistoryController;
-
+use App\Http\Controllers\BackupController;
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -101,6 +101,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [PurchaseHistoryController::class, 'index'])->name('index');
         Route::get('/{order}', [PurchaseHistoryController::class, 'show'])->name('show');
         Route::post('/{order}/reorder', [PurchaseHistoryController::class, 'reorder'])->name('reorder');
+    });
+    Route::prefix('backups')->name('backups.')->group(function () {
+        Route::get('/', [BackupController::class, 'index'])->name('index');
+        Route::post('/export', [BackupController::class, 'export'])->name('export');
+        Route::post('/restore', [BackupController::class, 'restore'])->name('restore');
     });
 });
 Route::get('orders/{order}/confirmation', [CheckoutController::class, 'confirmation'])
