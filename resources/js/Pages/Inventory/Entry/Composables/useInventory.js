@@ -17,7 +17,7 @@ const { isLoading, setLoading } = useLoading();
     const storeForm = () => {
         form.post(route(`${props.routeName}store`), {
             onBefore: () => setLoading(true),
-            onError: (errors) => error422(errors),
+            //onError: (errors) => error422(errors),
             onFinish: () => setLoading(false),
         });
     };
@@ -25,7 +25,7 @@ const { isLoading, setLoading } = useLoading();
     const updateForm = () => {
         form.post(route(`${props.routeName}update`, inventoryEntry?.id), {
             onBefore: () => setLoading(true),
-            onError: (errors) => error422(errors),
+            //onError: (errors) => error422(errors),
             onFinish: () => setLoading(false),
         });
     };

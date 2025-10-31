@@ -3,22 +3,10 @@
         <HeadLogo :title="title" />
         <AuthenticatedLayout>
             <SectionTitleLineWithButton :icon="mdiViewModule" :title="title" main>
-                <BaseButton 
-                    color="forest" 
-                    :icon="mdiPlus" 
-                    label="Nueva Entrada" 
-                    :routeName="`${routeName}create`"
-                />
             </SectionTitleLineWithButton>
 
-            <SearchBar 
-                @apply-filters="applyFilters" 
-                @clear-filters="clearFilters" 
-                v-model:search="filters.search"
-                v-model:rows="filters.rows" 
-                :routeName="routeName"
-                :total="inventoryEntries?.total || 0" 
-            />
+            <SearchBar @apply-filters="applyFilters" @clear-filters="clearFilters" v-model:search="filters.search"
+                v-model:rows="filters.rows" :routeName="routeName" :total="inventoryEntries?.total || 0" />
 
             <CardBox v-if="inventoryEntries && inventoryEntries.data.length > 0">
                 <table>
@@ -47,8 +35,8 @@
                         </tr>
                     </tbody>
                 </table>
-                <pagination :links="inventoryEntries.links" :total="inventoryEntries.total"
-                    :to="inventoryEntries.to" :from="inventoryEntries.from" />
+                <pagination :links="inventoryEntries.links" :total="inventoryEntries.total" :to="inventoryEntries.to"
+                    :from="inventoryEntries.from" />
             </CardBox>
             <CardBoxComponentEmpty v-else />
 
@@ -61,7 +49,7 @@ import { defineProps, onMounted } from "vue";
 import { router } from "@inertiajs/vue3";
 import CardBox from "@/Components/CardBox.vue";
 import SectionTitleLineWithButton from "@/Components/SectionTitleLineWithButton.vue";
-import { mdiViewModule, mdiPlus } from "@mdi/js"; 
+import { mdiViewModule, mdiPlus } from "@mdi/js";
 import BaseButton from "@/Components/BaseButton.vue";
 import Pagination from "@/Components/Pagination.vue";
 import CardBoxComponentEmpty from "@/Components/CardBoxComponentEmpty.vue";
@@ -73,7 +61,7 @@ import { useFilters } from "@/Hooks/useFilters";
 
 const props = defineProps({
     title: { type: String, required: true },
-    inventoryEntries: { type: Object, required: true }, 
+    inventoryEntries: { type: Object, required: true },
     routeName: { type: String, required: true },
     filters: { type: Object, required: true },
     flash: { type: Object, default: () => ({}) },
@@ -82,12 +70,12 @@ const props = defineProps({
 const { filters, clearFilters, applyFilters } = useFilters(props.filters, props.routeName);
 
 onMounted(() => {
-    // Manejo de notificaciones flash
-    if (props.flash.success) {
+    const flash = props.flash || {};
+    if (flash.success) {
         Swal.fire({ icon: "success", title: "Éxito", text: props.flash.success });
-    } else if (props.flash.error) {
+    } else if (flash.error) {
         Swal.fire({ icon: "error", title: "Error", text: props.flash.error });
-    } else if (props.flash.warning) {
+    } else if (flash.warning) {
         Swal.fire({ icon: "warning", title: "Aviso", text: props.flash.warning });
     }
 });
