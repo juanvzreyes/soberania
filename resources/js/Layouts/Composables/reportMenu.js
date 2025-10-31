@@ -1,6 +1,7 @@
 import {
+    mdiChartLine,
     mdiChartScatterPlot,
-    mdiViewList,
+    mdiFormatListNumbered,
 } from "@mdi/js";
 
 export default [
@@ -11,7 +12,12 @@ export default [
             {
                 label: "Lista de productores",
                 route: "producer.report.index",
-                icon: mdiViewList,
+                icon: mdiFormatListNumbered,
+            },
+            {
+                label: "Reporte de productores",
+                route: "producer.reports.index",
+                icon: mdiChartLine,
             },
         ],
     },

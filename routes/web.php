@@ -24,6 +24,7 @@ use App\Http\Controllers\DeliveryManagementController;
 use App\Http\Controllers\PaymentManagementController;
 use App\Http\Controllers\PurchaseHistoryController;
 use App\Http\Controllers\BackupController;
+use App\Http\Controllers\Report\ProducerDashboardReportController;
 use App\Http\Controllers\Web\ProducerReportController;
 
 Route::get('/', function () {
@@ -117,6 +118,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::get('producers/report', [ProducerReportController::class, 'index'])->name('producer.report.index');
+
+    Route::prefix('producer/reports')->name('producer.reports.')->group(function () {
+        Route::get('/', [ProducerDashboardReportController::class, 'index'])->name('index');
+        Route::get('sales/pdf', [ProducerDashboardReportController::class, 'generateSalesReportPdf'])->name('sales.pdf');
+        Route::get('sales/excel', [ProducerDashboardReportController::class, 'generateSalesReportExcel'])->name('sales.excel');
+        Route::get('inventory/pdf', [ProducerDashboardReportController::class, 'generateInventoryReportPdf'])->name('inventory.pdf');
+        Route::get('inventory/excel', [ProducerDashboardReportController::class, 'generateInventoryReportExcel'])->name('inventory.excel');
+        Route::get('customers/pdf', [ProducerDashboardReportController::class, 'generateCustomerReportPdf'])->name('customers.pdf');
+        Route::get('customers/excel', [ProducerDashboardReportController::class, 'generateCustomerReportExcel'])->name('customers.excel');
+    });
 });
 Route::get('orders/{order}/confirmation', [CheckoutController::class, 'confirmation'])
     ->name('orders.confirmation')
