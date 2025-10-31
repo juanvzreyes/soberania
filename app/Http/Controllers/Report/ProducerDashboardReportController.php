@@ -27,6 +27,11 @@ class ProducerDashboardReportController extends Controller
     {
         $this->routeName = "producer.reports.";
         $this->source    = "Report/Producer/";
+
+        $this->middleware("permission:{$this->routeName}index")->only(['index']);
+        $this->middleware("permission:{$this->routeName}sales.export")->only(['generateSalesReportPdf', 'generateSalesReportExcel']);
+        $this->middleware("permission:{$this->routeName}inventory.export")->only(['generateInventoryReportPdf','generateInventoryReportExcel']);
+        $this->middleware("permission:{$this->routeName}customers.export")->only(['generateCustomerReportPdf','generateCustomerReportExcel']);
     }
 
     public function index(Request $request)

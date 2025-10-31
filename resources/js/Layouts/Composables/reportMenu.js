@@ -18,6 +18,7 @@ export default [
                 label: "Reporte de productores",
                 route: "producer.reports.index",
                 icon: mdiChartLine,
+                permission: "producer.reports.index",
             },
         ],
     },
