@@ -17,7 +17,7 @@
             </div>
 
             <div class="md:w-1/3 max-lg:mb-5">
-                <FormField label="Cantidad de Salida" required :error="form.errors.quantity">
+                <FormField label="Cantidad de Salida(Kgs/Lts)" required :error="form.errors.quantity">
                     <FormControl v-model="form.quantity" type="number" height="h-10"
                         placeholder="Ej. 5 (Cantidad a restar)" :error="form.errors.quantity" :min="1" />
                 </FormField>

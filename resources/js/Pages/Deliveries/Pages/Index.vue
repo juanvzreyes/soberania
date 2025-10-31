@@ -64,7 +64,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
                                     <BaseButtons>
-                                        <BaseButton :href="route('deliveries.show', delivery.id)" color="info"
+                                        <BaseButton :href="route('deliveries.show', delivery.id)" color=""
                                             :icon="mdiEye" small label="Ver" />
                                     </BaseButtons>
                                 </td>
