@@ -111,6 +111,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [BackupController::class, 'index'])->name('index');
         Route::post('/export', [BackupController::class, 'export'])->name('export');
         Route::post('/restore', [BackupController::class, 'restore'])->name('restore');
+    });
 
     Route::prefix('dashboard/export')->name('dashboard.export.')->group(function () {
         Route::get('excel', [DashboardController::class, 'exportExcel'])->name('excel');
