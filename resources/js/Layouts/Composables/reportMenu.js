@@ -6,7 +6,6 @@ import {
 export default [
     {
         label: "Reportes",
-        permission: "menu.security",
         icon: mdiChartScatterPlot,
         menu: [
             {
