@@ -18,10 +18,10 @@ class ProducerReportController extends Controller
 
     public function __construct()
     {
-        $this->routeName = "users.";
+        $this->routeName = "producer.report.";
         $this->source    = "Report/";
 
-        $this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
+        // $this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
     }
 
     public function index()
