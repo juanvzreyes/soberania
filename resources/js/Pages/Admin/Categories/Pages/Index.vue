@@ -33,7 +33,7 @@
                             </td>
                             <td data-label="Acciones" class="before:hidden lg:w-1 whitespace-nowrap">
                                 <BaseButtons>
-                                    <BaseButton :color="category.is_active ? 'danger' : 'success'"
+                                    <BaseButton :color="category.is_active ? '' : ''"
                                         :icon="category.is_active ? mdiTrashCan : mdiCheck"
                                         @click="toggleCategoryStatus(category)"
                                         :title="category.is_active ? 'Dar de Baja Categoría' : 'Activar Categoría'"

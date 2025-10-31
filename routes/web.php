@@ -36,7 +36,6 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::resource('producers/map', ProducerLocationController::class)->only('index')->names('producer.map');
-Route::get('producers/report', [ProducerReportController::class, 'index'])->name('producer.report.index');
 Route::get('producers/report/pdf', [ProducerReportController::class, 'generatePdf'])->name('producer.report.pdf');
 Route::get('producers/report/excel', [ProducerReportController::class, 'generateExcel'])->name('producer.report.excel');
 
@@ -116,6 +115,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('excel', [DashboardController::class, 'exportExcel'])->name('excel');
         Route::get('pdf', [DashboardController::class, 'exportPdf'])->name('pdf');
     });
+
+    Route::get('producers/report', [ProducerReportController::class, 'index'])->name('producer.report.index');
 });
 Route::get('orders/{order}/confirmation', [CheckoutController::class, 'confirmation'])
     ->name('orders.confirmation')

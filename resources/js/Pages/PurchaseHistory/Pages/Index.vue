@@ -219,21 +219,22 @@ const getPhotoUrl = (photos) => {
 };
 
 onMounted(() => {
-    if (props.flash.success) {
+    const flash = props.flash || {};
+    if (flash.success) {
         Swal.fire({
             icon: 'success',
             title: 'Éxito',
             text: props.flash.success,
             confirmButtonColor: '#10B981'
         });
-    } else if (props.flash.error) {
+    } else if (flash.error) {
         Swal.fire({
             icon: 'error',
             title: 'Error',
             text: props.flash.error,
             confirmButtonColor: '#E1580E'
         });
-    } else if (props.flash.warning) {
+    } else if (flash.warning) {
         Swal.fire({
             icon: 'warning',
             title: 'Aviso',

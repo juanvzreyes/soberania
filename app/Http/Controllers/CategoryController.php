@@ -26,7 +26,6 @@ class CategoryController extends Controller
         $this->middleware("permission:{$this->routeName}store")->only(['store', 'create']);
         $this->middleware("permission:{$this->routeName}update")->only(['edit', 'update']);
         $this->middleware("permission:{$this->routeName}delete")->only(['destroy']);
-        
     }
     public function index(Request $request): Response
     {
@@ -74,17 +73,19 @@ class CategoryController extends Controller
             'category'  => new CategoryResource($category),
         ]);
     }
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        if (array_keys($request->all()) == ['is_active'] || array_keys($request->except('_method')) == ['is_active']) {
-            $category->update(['is_active' => $request->is_active]);
+        if ($request->has('is_active') && $request->keys() === ['is_active']) {
+            $category->update(['is_active' => $request->boolean('is_active')]);
 
-            $message = $request->is_active ? 'Categoría activada correctamente.' : 'Categoría dada de baja correctamente.';
+            $message = $request->boolean('is_active')
+                ? 'Categoría activada correctamente.'
+                : 'Categoría dada de baja correctamente.';
+
             return redirect()->back()->with('success', $message);
         }
-        $updateRequest = UpdateCategoryRequest::createFrom($request);
-        $validatedData = $updateRequest->validated();
-        $category->update($validatedData);
+        $category->update($request->validated());
+
         return redirect()->route("{$this->routeName}index")
             ->with('success', 'Categoría modificada con éxito');
     }

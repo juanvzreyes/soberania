@@ -44,7 +44,7 @@
                                         @click="toggleProductStatus(product)"
                                         :title="product.is_available ? 'Dar de Baja Producto' : 'Activar Producto'"
                                         :label="product.is_available ? 'Desactivar' : 'Activar'" />
-                                    <BaseButton color="info" :icon="mdiPencil" :routeName="`${routeName}edit`"
+                                    <BaseButton color="" :icon="mdiPencil" :routeName="`${routeName}edit`"
                                         :parameter="product.id" title="Editar Producto" />
                                 </BaseButtons>
                             </td>
@@ -131,11 +131,12 @@ const toggleProductStatus = (product) => {
 
 
 onMounted(() => {
-    if (props.flash.success) {
+    const flash = props.flash || {};
+    if (flash.success) {
         Swal.fire({ icon: "success", title: "Éxito", text: props.flash.success });
-    } else if (props.flash.error) {
+    } else if (flash.error) {
         Swal.fire({ icon: "error", title: "Error", text: props.flash.error });
-    } else if (props.flash.warning) {
+    } else if (flash.warning) {
         Swal.fire({ icon: "warning", title: "Aviso", text: props.flash.warning });
     }
 });

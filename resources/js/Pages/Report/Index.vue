@@ -3,14 +3,14 @@
     <AuthenticatedLayout>
         <SectionTitleLineWithButton :icon="mdiChartBar" :title="title" main>
             <div class="flex items-center gap-2">
-                <Button as="a" :href="route('producer.report.excel')" variant="outline">
+                <Button as="a" :href="route(`${routeName}excel`)" variant="outline">
                     <svg class="w-4 h-4 mr-2" viewBox="0 0 24 24">
                         <path :d="mdiFileExcel" />
                     </svg>
                     Exportar a Excel
                 </Button>
 
-                <Button as="a" :href="route('producer.report.pdf')" variant="outline">
+                <Button as="a" :href="route(`${routeName}pdf`)" variant="outline">
                     <svg class="w-4 h-4 mr-2" viewBox="0 0 24 24">
                         <path :d="mdiFilePdfBox" />
                     </svg>

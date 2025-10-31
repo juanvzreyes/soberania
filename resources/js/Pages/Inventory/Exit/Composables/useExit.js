@@ -37,7 +37,7 @@ export const useExit = (props) => {
         
         form.post(route(`${props.routeName}store`), {
             onBefore: () => setLoading(true),
-            onError: (errors) => error422(errors),
+            //onError: (errors) => error422(errors),
             onFinish: () => setLoading(false),
         });
     };
@@ -45,7 +45,7 @@ export const useExit = (props) => {
     const updateForm = () => {
         form.post(route(`${props.routeName}update`, inventoryExit?.id), {
             onBefore: () => setLoading(true),
-            onError: (errors) => error422(errors),
+            //onError: (errors) => error422(errors),
             onFinish: () => setLoading(false),
         });
     };
