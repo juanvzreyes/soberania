@@ -13,6 +13,8 @@ import securityMenu from "./Menus/securityMenu";
 import profileMenus from "./profileMenu";
 import homeMenu from "./homeMenu";
 import catalogMenu from "./catalogMenu";
+import reportMenu from "./reportMenu";
+
 export const baseMenu = [
     {
         labelGroup: "Inicio",
@@ -92,10 +94,16 @@ export const baseMenu = [
         ],
         
     },    
+    },
+    {
+        labelGroup: "Reportes",
+        items: [
+            ...reportMenu,
+        ],
+    },   
     {
         labelGroup: "Público",
         items: [
-
             ...homeMenu,
             {
                 label: "Catálogo de Productos", 

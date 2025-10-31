@@ -1,9 +1,7 @@
 import {
     mdiHome,
-    mdiInformationOutline,
-    mdiBriefcaseOutline,
-    mdiPhone,
     mdiHomeOutline,
+    mdiMapSearchOutline,
 } from "@mdi/js";
 
 export default [
@@ -16,11 +14,11 @@ export default [
                 route: "welcome",
                 icon: mdiHomeOutline,
             },
-            // {
-            //     label: "Nosotros",
-            //     route: "about",
-            //     icon: mdiInformationOutline,
-            // },
+            {
+                label: "Mapa de productores",
+                route: "producer.map.index",
+                icon: mdiMapSearchOutline,
+            },
             // {
             //     label: "Servicios",
             //     route: "services",
