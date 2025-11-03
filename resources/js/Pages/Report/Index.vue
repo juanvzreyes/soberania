@@ -4,17 +4,10 @@
         <SectionTitleLineWithButton :icon="mdiChartBar" :title="title" main>
             <div class="flex items-center gap-2">
                 <Button as="a" :href="route(`${routeName}excel`)" variant="outline">
-                    <svg class="w-4 h-4 mr-2" viewBox="0 0 24 24">
-                        <path :d="mdiFileExcel" />
-                    </svg>
-                    Exportar a Excel
+                    <FileSpreadsheet class="w-4 h-4 mr-2" /> Excel
                 </Button>
-
                 <Button as="a" :href="route(`${routeName}pdf`)" variant="outline">
-                    <svg class="w-4 h-4 mr-2" viewBox="0 0 24 24">
-                        <path :d="mdiFilePdfBox" />
-                    </svg>
-                    Exportar a PDF
+                    <FileText class="w-4 h-4 mr-2" /> PDF
                 </Button>
             </div>
         </SectionTitleLineWithButton>
@@ -85,7 +78,7 @@ import HeadLogo from '@/Components/HeadLogo.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { TriangleAlert, MapPin, Package } from 'lucide-vue-next';
+import { TriangleAlert, MapPin, Package, FileText, FileSpreadsheet } from 'lucide-vue-next';
 import { mdiChartBar, mdiFileExcel, mdiFilePdfBox } from '@mdi/js';
 
 const props = defineProps({

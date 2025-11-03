@@ -34,7 +34,7 @@ class ProducerReportController extends Controller
         $chartData = $this->prepareChartData($producers);
 
         return Inertia::render("{$this->source}Index", [
-            'title'     => 'Reporte de Productores',
+            'title'     => 'Lista de Productores',
             'routeName' => $this->routeName,
             'producers' => $producers,
             'chartData' => $chartData,

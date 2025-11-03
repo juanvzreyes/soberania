@@ -106,5 +106,9 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'cooperative.reports.exportOrders', 'guard_name' => 'web', 'description' => 'Exportar reporte de Pedidos', 'module_key' => 'cooperative-reports']);
         Permission::create(['name' => 'cooperative.reports.exportOrdersByCategory', 'guard_name' => 'web', 'description' => 'Exportar Pedidos por Categoría', 'module_key' => 'cooperative-reports']);
                 
+        Permission::create(['name' => 'producer.reports.index', 'guard_name' => 'web', 'description' => 'Ver página de reportes', 'module_key' => 'reports-producer']);
+        Permission::create(['name' => 'producer.reports.sales.export', 'guard_name' => 'web', 'description' => 'Generar reporte de ventas (PDF)', 'module_key' => 'reports-producer']);
+        Permission::create(['name' => 'producer.reports.inventory.export', 'guard_name' => 'web', 'description' => 'Generar reporte de inventario (PDF)', 'module_key' => 'reports-producer']);
+        Permission::create(['name' => 'producer.reports.customers.export', 'guard_name' => 'web', 'description' => 'Generar reporte de clientes (PDF)', 'module_key' => 'reports-producer']);
     }
 }

@@ -1,19 +1,25 @@
 import {
+    mdiChartLine,
     mdiChartScatterPlot,
-    mdiViewList,
+    mdiFormatListNumbered,
     mdiChartLine,
 } from "@mdi/js";
 
 export default [
     {
         label: "Reportes",
-        permission: "menu.security",
         icon: mdiChartScatterPlot,
         menu: [
             {
                 label: "Lista de productores",
                 route: "producer.report.index",
-                icon: mdiViewList,
+                icon: mdiFormatListNumbered,
+            },
+            {
+                label: "Reporte de productores",
+                route: "producer.reports.index",
+                icon: mdiChartLine,
+                permission: "producer.reports.index",
             },
         ],
     },
