@@ -78,7 +78,7 @@
                         </FormField>
 
                         <BaseButtons class="mt-4">
-                            <BaseButton type="submit" color="success" label="Actualizar Estado" :icon="mdiCheckCircle"
+                            <BaseButton type="submit"  label="Actualizar Estado" :icon="mdiCheckCircle"
                                 :disabled="processing" />
                         </BaseButtons>
                     </form>
