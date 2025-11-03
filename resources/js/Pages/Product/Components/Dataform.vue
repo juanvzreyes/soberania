@@ -23,9 +23,9 @@
         </div>
 
         <div class="md:w-full mb-5">
-            <FormField label="Descripción del Producto" :error="form.errors.description">
+            <FormField label="Descripción del Producto" required :error="form.errors.description">
                 <FormControl v-model="form.description" type="textarea"
-                    placeholder="Describa el producto, su origen, y beneficios." :error="form.errors.description" />
+                    placeholder="Describa el producto, su origen, y beneficios." :error="form.errors.description" maxLength="255" />
             </FormField>
         </div>
         <CardSection title="Imágenes relacionadas" description="Agrega imágenes relacionadas con el producto"

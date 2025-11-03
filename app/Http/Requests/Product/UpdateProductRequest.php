@@ -34,7 +34,7 @@ class UpdateProductRequest extends FormRequest
                     'max:255',
                     Rule::unique('products', 'name')->ignore($productId),
                 ],
-                'description' => ['nullable', 'string', 'max:1000'],
+                'description' => ['required', 'string', 'max:1000'],
                 'price' => ['required', 'numeric', 'min:0'],
                 'category_id' => ['nullable', 'exists:categories,id'],
 

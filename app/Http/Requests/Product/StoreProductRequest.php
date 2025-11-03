@@ -20,7 +20,7 @@ class StoreProductRequest extends FormRequest
             $this->photoRules(),
             [
                 'name'         => ['required', 'string', 'max:255', 'unique:products,name'],
-                'description'  => ['nullable', 'string', 'max:500'],
+                'description'  => ['required', 'string', 'max:500'],
                 'price'        => ['required', 'numeric', 'min:0'],
                 'category_id'  => ['required', 'exists:categories,id'],
                 'is_available'    => ['nullable', 'boolean'],
@@ -50,7 +50,7 @@ class StoreProductRequest extends FormRequest
             'name.max'      => 'El nombre no puede exceder los 255 caracteres.',
 
             'description.max' => 'La descripción no puede exceder los 500 caracteres.',
-
+            'description.required' => 'La descripción del producto es obligatoria',
             'price.required' => 'El campo ":attribute" es obligatorio.',
             'price.numeric'  => 'El campo ":attribute" debe ser un número.',
             'price.min'      => 'El precio no puede ser negativo.',

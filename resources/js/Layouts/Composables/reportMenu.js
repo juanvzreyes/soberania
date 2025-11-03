@@ -1,6 +1,7 @@
 import {
     mdiChartScatterPlot,
     mdiViewList,
+    mdiChartLine,
 } from "@mdi/js";
 
 export default [

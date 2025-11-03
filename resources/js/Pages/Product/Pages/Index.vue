@@ -43,9 +43,11 @@
                                         :icon="product.is_available ? mdiTrashCan : mdiCheck"
                                         @click="toggleProductStatus(product)"
                                         :title="product.is_available ? 'Dar de Baja Producto' : 'Activar Producto'"
-                                        :label="product.is_available ? 'Desactivar' : 'Activar'" />
-                                    <BaseButton color="" :icon="mdiPencil" :routeName="`${routeName}edit`"
-                                        :parameter="product.id" title="Editar Producto" />
+                                        :label="product.is_available ? 'Desactivar' : 'Activar'" 
+                                        :iconColor="product.is_available ? 'text-red-500' : 'text-green-500'"
+                                        :class="product.is_available ? 'text-red-500' : 'text-green-500'"/>
+                                    <BaseButton color="info" :icon="mdiPencil" :routeName="`${routeName}edit`"
+                                        :parameter="product.id" title="Editar Producto" iconColor="text-blue-600" />
                                 </BaseButtons>
                             </td>
                         </tr>
