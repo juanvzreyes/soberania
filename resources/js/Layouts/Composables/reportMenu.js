@@ -2,7 +2,6 @@ import {
     mdiChartLine,
     mdiChartScatterPlot,
     mdiFormatListNumbered,
-    mdiChartLine,
 } from "@mdi/js";
 
 export default [
