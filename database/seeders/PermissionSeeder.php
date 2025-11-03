@@ -96,5 +96,15 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'backups.download', 'guard_name' => 'web', 'description' => 'Descargar Respaldo', 'module_key' => 'backups']);
         Permission::create(['name' => 'backups.delete', 'guard_name' => 'web', 'description' => 'Eliminar Respaldo', 'module_key' => 'backups']);
 
+        Permission::create(['name' => 'consumer.reports.index', 'guard_name' => 'web', 'description' => 'Ver página de Mis Reportes', 'module_key' => 'consumer-reports']);
+        Permission::create(['name' => 'consumer.reports.purchaseHistory', 'guard_name' => 'web', 'description' => 'Generar reporte Historial de Compras', 'module_key' => 'consumer-reports']);
+        Permission::create(['name' => 'consumer.reports.topProducts', 'guard_name' => 'web', 'description' => 'Generar reporte Productos más Comprados', 'module_key' => 'consumer-reports']);
+
+        Permission::create(['name' => 'cooperative.reports.index', 'guard_name' => 'web', 'description' => 'Ver página de Reportes de Cooperativa', 'module_key' => 'cooperative-reports']);
+        Permission::create(['name' => 'cooperative.reports.orders', 'guard_name' => 'web', 'description' => 'Generar reporte de Pedidos', 'module_key' => 'cooperative-reports']);
+        Permission::create(['name' => 'cooperative.reports.ordersByCategory', 'guard_name' => 'web', 'description' => 'Generar reporte de Pedidos por Categoría', 'module_key' => 'cooperative-reports']);
+        Permission::create(['name' => 'cooperative.reports.exportOrders', 'guard_name' => 'web', 'description' => 'Exportar reporte de Pedidos', 'module_key' => 'cooperative-reports']);
+        Permission::create(['name' => 'cooperative.reports.exportOrdersByCategory', 'guard_name' => 'web', 'description' => 'Exportar Pedidos por Categoría', 'module_key' => 'cooperative-reports']);
+                
     }
 }
