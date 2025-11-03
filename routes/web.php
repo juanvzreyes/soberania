@@ -26,7 +26,8 @@ use App\Http\Controllers\PurchaseHistoryController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\Report\ProducerDashboardReportController;
 use App\Http\Controllers\Web\ProducerReportController;
-
+use App\Http\Controllers\ConsumerReportsController;
+use App\Http\Controllers\CooperativeReportsController;
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -101,20 +102,36 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/payments/{payment}/status', [PaymentManagementController::class, 'updateStatus'])->name('payments.update-status');
     Route::post('/payments/{payment}/revert', [PaymentManagementController::class, 'revert'])->name('payments.revert');
     Route::post('/payments/{payment}/upload-proof', [PaymentManagementController::class, 'uploadProof'])->name('payments.upload-proof');
-    
+
     Route::prefix('purchase-history')->name('purchase-history.')->group(function () {
         Route::get('/', [PurchaseHistoryController::class, 'index'])->name('index');
         Route::get('/{order}', [PurchaseHistoryController::class, 'show'])->name('show');
         Route::post('/{order}/reorder', [PurchaseHistoryController::class, 'reorder'])->name('reorder');
     });
     Route::prefix('backups')->name('backups.')->group(function () {
-            Route::get('/', [BackupController::class, 'index'])->name('index');
-            Route::post('/export', [BackupController::class, 'export'])->name('export');
-            Route::post('/restore', [BackupController::class, 'restore'])->name('restore');
+        Route::get('/', [BackupController::class, 'index'])->name('index');
+        Route::post('/export', [BackupController::class, 'export'])->name('export');
+        Route::post('/restore', [BackupController::class, 'restore'])->name('restore');
     });
     Route::prefix('dashboard/export')->name('dashboard.export.')->group(function () {
         Route::get('excel', [DashboardController::class, 'exportExcel'])->name('excel');
         Route::get('pdf', [DashboardController::class, 'exportPdf'])->name('pdf');
+    });
+
+    Route::prefix('consumer/reports')->name('consumer.reports.')->group(function () {
+        Route::get('/', [ConsumerReportsController::class, 'index'])->name('index');
+        Route::get('/purchase-history', [ConsumerReportsController::class, 'purchaseHistory'])->name('purchase-history');
+        Route::get('/top-products', [ConsumerReportsController::class, 'topProducts'])->name('top-products');
+        Route::post('/export-purchase-history', [ConsumerReportsController::class, 'exportPurchaseHistory'])->name('export-purchase-history');
+        Route::post('/export-top-products', [ConsumerReportsController::class, 'exportTopProducts'])->name('export-top-products');
+    });
+    
+    Route::prefix('cooperative/reports')->name('cooperative.reports.')->group(function () {
+        Route::get('/', [CooperativeReportsController::class, 'index'])->name('index');
+        Route::get('/orders', [CooperativeReportsController::class, 'orders'])->name('orders');
+        Route::get('/orders-by-category', [CooperativeReportsController::class, 'ordersByCategory'])->name('orders-by-category');
+        Route::get('/export-orders', [CooperativeReportsController::class, 'exportOrders'])->name('export-orders');
+        Route::get('/export-orders-by-category', [CooperativeReportsController::class, 'exportOrdersByCategory'])->name('export-orders-by-category');
     });
 
     Route::get('producers/report', [ProducerReportController::class, 'index'])->name('producer.report.index');
