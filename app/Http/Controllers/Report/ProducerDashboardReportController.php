@@ -50,7 +50,7 @@ class ProducerDashboardReportController extends Controller
         }
 
         return Inertia::render("{$this->source}Index", [
-            'title'               => 'Mis Reportes',
+            'title'               => 'Reportes de Productor',
             'routeName'           => $this->routeName,
             'salesReportData'     => $salesReportData,
             'inventoryReportData' => $inventoryReportData,

@@ -7,9 +7,6 @@ import { mdiMonitorDashboard, mdiStoreSearch,
         mdiCreditCardOutline,
         mdiTruckDelivery,
         mdiHistory,
-        mdiDatabaseCog,
-        mdiChartLine,
-        mdiHomeGroup
          } from "@mdi/js";
 import securityMenu from "./Menus/securityMenu";
 import profileMenus from "./profileMenu";
@@ -87,12 +84,6 @@ export const baseMenu = [
         labelGroup: "Administración",
         items: [
             ...securityMenu,
-            {
-                label: "Respaldo de BD",
-                route: "backups.index",
-                icon: mdiDatabaseCog,
-                permission: "backups.index",
-            },
         ],
         
     },    
@@ -117,18 +108,6 @@ export const baseMenu = [
                 route: "purchase-history.index",
                 icon: mdiHistory,
                 permission: "purchase-history.index", 
-            },
-            {
-                label: "Mis reportes",
-                route: "cooperative.reports.index",
-                icon: mdiChartLine,
-                permission: "cooperative.reports.index",
-            },
-            {
-                label: "Mis Reportes",
-                route: "consumer.reports.index",
-                icon: mdiChartLine,
-                permission: "consumer.reports.index", 
             },
         ],
     },
