@@ -20,10 +20,12 @@ class ProductService
 
     public function store(array $data): Product | null
     {
+
         return DB::transaction(function () use ($data) {
             $productData = Product::create($data);
             $this->photoService->storePhotos($productData, $data['photos'] ?? [], new PhotoStorageConfig(basePath: 'photos/products'));
         });
+        
     }
 
     public function update(Product $product, array $data): Product | null

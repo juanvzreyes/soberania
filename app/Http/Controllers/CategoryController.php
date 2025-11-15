@@ -10,6 +10,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Http\Requests\Admin\StoreCategoryRequest;
 use App\Http\Requests\Admin\UpdateCategoryRequest;
+use App\Services\NotificationService;
 
 class CategoryController extends Controller
 {
@@ -17,8 +18,9 @@ class CategoryController extends Controller
     protected string $routeName = "categories.";
     protected string $source    = "Admin/Categories/Pages/";
     protected Category $model;
+    protected $notificationService;
 
-    public function __construct()
+    public function __construct(NotificationService $notificationService)
     {
         $this->model = new Category();
 
@@ -26,6 +28,8 @@ class CategoryController extends Controller
         $this->middleware("permission:{$this->routeName}store")->only(['store', 'create']);
         $this->middleware("permission:{$this->routeName}update")->only(['edit', 'update']);
         $this->middleware("permission:{$this->routeName}delete")->only(['destroy']);
+
+        $this->notificationService = $notificationService;
     }
     public function index(Request $request): Response
     {

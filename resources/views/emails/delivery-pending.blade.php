@@ -15,7 +15,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📦 Entrega Programada</h1>
+            <h1>Entrega Programada</h1>
         </div>
         
         <div class="content">
@@ -27,12 +27,12 @@
                 <h3>Detalles de Entrega - Pedido #{{ $order->id }}</h3>
                 
                 <div class="highlight">
-                    <strong>📅 Fecha estimada:</strong> 
+                    <strong>Fecha estimada:</strong> 
                     {{ $order->delivery->estimated_delivery_date ? $order->delivery->estimated_delivery_date->format('d/m/Y H:i') : 'Por confirmar' }}
                 </div>
                 
-                <p><strong>🚚 Transportista:</strong> {{ $order->delivery->transporter ? $order->delivery->transporter->name : 'Por asignar' }}</p>
-                <p><strong>📍 Estado:</strong> {{ $order->delivery->status }}</p>
+                <p><strong>Transportista:</strong> {{ $order->delivery->transporter ? $order->delivery->transporter->name : 'Por asignar' }}</p>
+                <p><strong>Estado:</strong> {{ $order->delivery->status }}</p>
             </div>
             
             <p>Por favor, asegúrate de estar disponible en la dirección indicada.</p>

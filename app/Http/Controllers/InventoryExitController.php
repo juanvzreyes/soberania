@@ -14,6 +14,7 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use App\Models\InventoryExit;
 use Illuminate\Support\Facades\DB;
+use App\Services\NotificationService;
 
 class InventoryExitController extends Controller
 {
@@ -22,10 +23,13 @@ class InventoryExitController extends Controller
     private string $source = 'Inventory/Exit/Pages/';
     private string $routeName = 'inventoryExit.';
     protected InventoryExit $model;
+    protected NotificationService $notificationService;
 
-    public function __construct()
+    public function __construct(NotificationService $notificationService)
     {
         $this->model = new InventoryExit();
+        $this->notificationService = $notificationService;
+
         $this->middleware("permission:{$this->routeName}index")->only(['index']);
         $this->middleware("permission:{$this->routeName}store")->only(['store', 'create']);
     }
@@ -59,7 +63,7 @@ class InventoryExitController extends Controller
             ->get(['id', 'name', 'stock_quantity']);
 
         return Inertia::render("{$this->source}Create", [
-            'title'     => 'Registro de Salida de Inventario', 
+            'title'     => 'Registro de Salida de Inventario',
             'routeName' => $this->routeName,
             'products'  => $products,
         ]);
@@ -68,8 +72,7 @@ class InventoryExitController extends Controller
     {
         try {
             DB::beginTransaction();
-            $product = Product::find($request->product_id);
-
+             $product = Product::with(['user', 'category'])->find($request->product_id);
             if (!$product) {
                 throw new Exception("El producto seleccionado no existe.");
             }
@@ -78,7 +81,21 @@ class InventoryExitController extends Controller
             }
             $this->model->create($request->validated());
             $product->decrement('stock_quantity', $request->quantity);
+            $product->refresh();
+            $lowStockThreshold = 5; 
+            if ($product->stock_quantity <= $lowStockThreshold && $product->stock_quantity > 0) {
+                $producer = $product->user; 
+                if ($producer) {
+                   $this->notificationService->sendLowStockAlert($product, $producer);
+                    
+                    Log::info("Alerta de stock bajo enviada para producto ID {$product->id} al productor {$producer->name}");
+                }
+            }
 
+            // Deshabilitar producto si stock es 0
+            if ($product->stock_quantity <= 0) {
+                $product->update(['is_available' => false]);
+            }
             DB::commit();
             return redirect()->route("{$this->routeName}index")->with('success', 'Salida de inventario registrada con éxito.');
         } catch (Exception $exception) {
