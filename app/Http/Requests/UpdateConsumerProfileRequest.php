@@ -28,4 +28,11 @@ class UpdateConsumerProfileRequest extends FormRequest
             'description' => 'nullable|string|max:500',
         ], $this->locationRules(), $this->phoneNumberRules());
     }
+
+    public function attributes(): array
+    {
+        return array_merge([
+            'description' => 'descripción',
+        ], $this->locationAttributes(), $this->phoneNumberAttributes());
+    }
 }

@@ -31,4 +31,16 @@ class ProfileUpdateRequest extends FormRequest
             ],
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'name' => 'nombre',
+            'first_name' => 'primer nombre',
+            'last_name' => 'primer apellido',
+            'second_last_name' => 'segundo apellido',
+            'gender' => 'genero',
+            'email' => 'correo',
+        ];
+    }
 }

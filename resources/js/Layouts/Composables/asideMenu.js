@@ -19,7 +19,7 @@ export const baseMenu = [
         labelGroup: "Inicio",
         items: [
             {
-                label: "Dashboard",
+                label: "Panel de Control",
                 route: "dashboard",
                 icon: mdiMonitorDashboard,
             },

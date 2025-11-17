@@ -32,4 +32,17 @@ class StoreUserRequest extends FormRequest
             'roles.*'           => 'exists:roles,id',
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'name'              => 'nombre',
+            'first_name'        => 'primer nombre',
+            'last_name'         => 'primer apellido',
+            'second_last_name'  => 'segundo apellido',
+            'email'             => 'correo',
+            'password'          => 'contraseña',
+            'roles'             => 'roles',
+        ];
+    }
 }
