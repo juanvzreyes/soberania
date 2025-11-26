@@ -28,4 +28,11 @@ class UpdateProducerProfileRequest extends FormRequest
             'certification' => 'nullable|string|max:500',
         ], $this->locationRules(), $this->phoneNumberRules());
     }
+
+    public function attributes(): array
+    {
+        return array_merge([
+            'certification' => 'certificado',
+        ], $this->locationAttributes(), $this->phoneNumberAttributes());
+    }
 }

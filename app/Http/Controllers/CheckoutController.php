@@ -18,7 +18,7 @@ use App\Services\NotificationService;
 class CheckoutController extends Controller
 {
     protected $notificationService;
-    private string $routeName = 'checkout.'; 
+    private string $routeName = 'checkout.';
     public function __construct(NotificationService $notificationService)
     {
         $this->notificationService = $notificationService;
@@ -126,6 +126,15 @@ class CheckoutController extends Controller
                     'user_id' => $user->id,
                 ]);
                 $product->decrement('stock_quantity', $quantity);
+                $product->refresh();
+                $lowStockThreshold = 5;
+                if ($product->stock_quantity <= $lowStockThreshold && $product->stock_quantity > 0) {
+                    $producer = $product->user;
+                    if ($producer) {
+                        app(NotificationService::class)->sendLowStockAlert($product, $producer);
+                    }
+                }
+
                 if ($product->stock_quantity <= 0) {
                     $product->update(['is_available' => false]);
                 }
@@ -146,7 +155,7 @@ class CheckoutController extends Controller
 
             session()->forget('cart');
             DB::commit();
-            
+
             $this->notificationService->sendOrderConfirmation($order);
             return redirect()->route('orders.confirmation', $order->id)
                 ->with('success', '¡Pedido realizado con éxito!');

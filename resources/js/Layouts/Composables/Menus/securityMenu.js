@@ -1,5 +1,6 @@
 import {
     mdiAccount,
+    mdiDatabaseCog,
     mdiSecurity,
 } from "@mdi/js";
 
@@ -32,6 +33,12 @@ export default [
                 route: "users.index",
                 icon: mdiAccount,
                 permission: "users.index",
+            },
+            {
+                label: "Respaldo de BD",
+                route: "backups.index",
+                icon: mdiDatabaseCog,
+                permission: "backups.index",
             },
         ],
     },

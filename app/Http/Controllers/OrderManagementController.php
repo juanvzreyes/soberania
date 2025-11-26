@@ -13,7 +13,7 @@ use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
-
+use App\Services\NotificationService;
 class OrderManagementController extends Controller
 {
     use Filterable;
@@ -120,7 +120,6 @@ class OrderManagementController extends Controller
             ]);
 
             return back()->with('success', 'Estado del pedido actualizado correctamente');
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             return back()->withErrors($e->errors())->withInput();
         } catch (\Exception $exception) {
@@ -167,7 +166,6 @@ class OrderManagementController extends Controller
 
             return redirect()->route("{$this->routeName}index")
                 ->with('success', 'Pedido cancelado correctamente');
-
         } catch (\Exception $exception) {
             DB::rollBack();
             Log::error("Error al cancelar pedido ID {$order->id}: " . $exception->getMessage());
@@ -216,6 +214,9 @@ class OrderManagementController extends Controller
         switch ($newStatus) {
             case Order::STATUS_PROCESSING:
                 $delivery?->update(['status' => Delivery::STATUS_IN_PREPARATION]);
+                break;
+            case Order::STATUS_DELIVERED:
+                app(NotificationService::class)->sendOrderDelivered($order);
                 break;
             case Order::STATUS_CANCELED:
                 $delivery?->update(['status' => Delivery::STATUS_CANCELED]);

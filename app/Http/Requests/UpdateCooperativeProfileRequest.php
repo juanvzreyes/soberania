@@ -30,4 +30,13 @@ class UpdateCooperativeProfileRequest extends FormRequest
             'members' => 'nullable|string|max:5',
         ], $this->locationRules(), $this->phoneNumberRules());
     }
+
+    public function attributes(): array
+    {
+        return array_merge([
+            'name' => 'nombre',
+            'region' => 'región',
+            'members' => 'miembros',
+        ], $this->locationAttributes(), $this->phoneNumberAttributes());
+    }
 }

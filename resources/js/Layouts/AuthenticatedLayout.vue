@@ -15,6 +15,7 @@ import Icon from '@/Components/Icon.vue';
 import { mdiMenu } from '@mdi/js';
 import NotificationBell from '@/Components/NotificationBell.vue';
 import FlashMessage from '@/Components/FlashMessage.vue';
+import SessionTimeout from '@/Components/SessionTimeout.vue';
 
 defineProps({
     title: String,
@@ -40,7 +41,7 @@ const mainContentClasses = computed(() => {
     <div class="fixed top-5 right-5 z-50 w-full max-w-md">
         <FlashMessage />
     </div>
-
+    <SessionTimeout />
     <div class="min-h-screen w-full bg-gray-100">
         <Sidebar>
             <SidebarHeader />

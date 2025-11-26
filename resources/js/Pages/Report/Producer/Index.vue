@@ -1,7 +1,7 @@
 <template>
     <HeadLogo :title="title" />
     <AuthenticatedLayout>
-        <SectionTitleLineWithButton :title="title" main>
+        <SectionTitleLineWithButton :icon="mdiChartBox" :title="title" main>
             <BarChartBig class="w-8 h-8" />
         </SectionTitleLineWithButton>
 
@@ -350,6 +350,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { BarChartBig, FileSpreadsheet, FileText, Search, Package, Users } from 'lucide-vue-next';
+import { mdiChartBox } from '@mdi/js';
 
 const props = defineProps({
     title: String,

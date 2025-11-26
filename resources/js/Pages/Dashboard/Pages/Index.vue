@@ -1,7 +1,7 @@
 <template>
     <HeadLogo title="Dashboard" />
     <AuthenticatedLayout>
-        <SectionTitleLineWithButton :icon="mdiMonitorDashboard" title="Panel de Estadisticas"
+        <SectionTitleLineWithButton :icon="mdiMonitorDashboard" title="Panel de Estadísticas"
             description="Panel de control principal" main :hisBreadCrumb="false" />
         <StatisticsPanel :stats="stats" :filters="filters" :auth="auth" />
     </AuthenticatedLayout>

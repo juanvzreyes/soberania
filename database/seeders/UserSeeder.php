@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name'              => 'Cooperativa',
-            'email'             => 'cooperative@gmail.com',
+            'email'             => 'julieduardoavilatapia@gmail.com',
             'password'          => '12345678',
             'email_verified_at' => now(),
         ]);

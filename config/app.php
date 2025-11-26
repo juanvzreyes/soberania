@@ -77,11 +77,9 @@ return [
     | set to any locale for which you plan to have translation strings.
     |
     */
+
     'locale' => 'es',
-    
     'fallback_locale' => 'es',
-
-
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
     /*

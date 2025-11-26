@@ -1,7 +1,7 @@
 <template>
     <HeadLogo :title="title" />
     <AuthenticatedLayout>
-        <SectionTitleLineWithButton :icon="mdiChartBar" :title="title" main>
+        <SectionTitleLineWithButton :icon="mdiListBox" :title="title" main>
             <div class="flex items-center gap-2">
                 <Button as="a" :href="route(`${routeName}excel`)" variant="outline">
                     <FileSpreadsheet class="w-4 h-4 mr-2" /> Excel
@@ -79,7 +79,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { TriangleAlert, MapPin, Package, FileText, FileSpreadsheet } from 'lucide-vue-next';
-import { mdiChartBar, mdiFileExcel, mdiFilePdfBox } from '@mdi/js';
+import { mdiListBox } from '@mdi/js';
 
 const props = defineProps({
     title: {

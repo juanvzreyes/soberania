@@ -18,4 +18,19 @@ trait LocationRules
             'location.longitude'        => ['nullable', 'numeric', 'between:-180,180'],
         ];
     }
+
+    protected function locationAttributes(): array
+    {
+        return [
+            'location.state_id'         => 'estado',
+            'location.municipality_id'  => 'municipio',
+            'location.neighborhood_id'  => 'colonia',
+            'location.postal_code'      => 'código postal',
+            'location.street'           => 'calle',
+            'location.exterior_number'  => 'número exterior',
+            'location.interior_number'  => 'número interior',
+            'location.latitude'         => 'latitud',
+            'location.longitude'        => 'longitud',
+        ];
+    }
 }

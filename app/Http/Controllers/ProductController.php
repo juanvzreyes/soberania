@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Services\NotificationService;
 
 class ProductController extends Controller
 {
@@ -29,13 +30,14 @@ class ProductController extends Controller
     private string $routeName;
     protected ProductService $productService;
     protected PhotoService $photoService;
+    protected $notificationService;
 
-    public function __construct(ProductService $productService, PhotoService $photoService)
+    public function __construct(ProductService $productService, PhotoService $photoService, NotificationService $notificationService)
     {
         $this->source = 'Product/Pages/';
         $this->model = new Product();
-        $this->routeName = 'products.'; 
-        $this->productService = $productService; 
+        $this->routeName = 'products.';
+        $this->productService = $productService;
         $this->photoService = $photoService;
 
         $this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
@@ -43,6 +45,7 @@ class ProductController extends Controller
         $this->middleware("permission:{$this->routeName}update")->only(['edit', 'update']);
         $this->middleware("permission:{$this->routeName}delete")->only(['destroy']);
 
+        $this->notificationService = $notificationService;
         // $this->authorizeResource(Product::class, 'product');
     }
 
