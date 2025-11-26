@@ -28,6 +28,7 @@ use App\Http\Controllers\Report\ProducerDashboardReportController;
 use App\Http\Controllers\Web\ProducerReportController;
 use App\Http\Controllers\ConsumerReportsController;
 use App\Http\Controllers\CooperativeReportsController;
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -42,6 +43,9 @@ Route::get('producers/report/pdf', [ProducerReportController::class, 'generatePd
 Route::get('producers/report/excel', [ProducerReportController::class, 'generateExcel'])->name('producer.report.excel');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/keep-alive', function () {
+        return response()->noContent();
+    })->name('session.keep-alive');
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -125,7 +129,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/export-purchase-history', [ConsumerReportsController::class, 'exportPurchaseHistory'])->name('export-purchase-history');
         Route::post('/export-top-products', [ConsumerReportsController::class, 'exportTopProducts'])->name('export-top-products');
     });
-    
+
     Route::prefix('cooperative/reports')->name('cooperative.reports.')->group(function () {
         Route::get('/', [CooperativeReportsController::class, 'index'])->name('index');
         Route::get('/orders', [CooperativeReportsController::class, 'orders'])->name('orders');

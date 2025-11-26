@@ -32,6 +32,9 @@ class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
+            'session' => [
+                'lifetime' => config('session.lifetime'),
+            ],
             'cartCount' => function () {
                 return count(session()->get('cart', []));
             },
